@@ -1,8 +1,6 @@
-# Next.js + Fleek Starter Kit
+# NFTAROT
 
-![image](https://github.com/fleekxyz/nextjs-template/assets/55561695/ecee3337-3dee-4543-a18b-57151cb18448)
-
-## 🚀 Project Structure
+## 🌱 Project Structure
 
 Inside of your Next.js project, you'll see the following folders and files:
 
