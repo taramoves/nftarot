@@ -1,95 +1,118 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100vw;
-    background-color: purple; /* Purple background */
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    background-color: red;
-    padding: 10px;
-  }
-  
-  .headerLink {
-    color: black;
-    font-weight: bold;
-    text-decoration: none;
-    margin: 0 10px;
-  }
-  
-  .main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-    background-color: green; /* Green background */
-    position: relative;
-  }
-  
-  .cardDeck {
-    position: relative;
-    height: 400px;
-    width: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .card {
-    width: 100px;
-    height: 150px;
-    position: absolute;
-    transition: transform 0.3s;
-    cursor: pointer;
-  }
-  
-  .card:hover {
-    transform: scale(1.1);
-    z-index: 1;
-  }
-  
-  .centerText {
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-weight: bold;
-  }
-  
-  .selectedCardContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .selectedCard {
-    width: 200px;
-    height: 300px;
-  }
-  
-  .cardDeck .card {
-    filter: brightness(0.5);
-  }
-  
-  .selectedCardContainer .buttons {
-    display: flex;
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  .button {
-    padding: 10px 20px;
-    background-color: black;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .button:hover {
-    background-color: grey;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: purple; /* Purple background */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: red;
+  padding: 10px;
+}
+
+.headerLink {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  background-color: green; /* Green background */
+  position: relative;
+}
+
+.cardDeck {
+  position: relative;
+  height: 600px;
+  width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardDeckDark {
+  position: relative;
+  height: 600px;
+  width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: brightness(0.5); /* Darken the card deck */
+}
+
+.card {
+  width: 100px;
+  height: 150px;
+  position: absolute;
+  transition: transform 0.3s, filter 0.3s;
+  cursor: pointer;
+  filter: none; /* Ensure full color */
+}
+
+.card:hover {
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.hiddenCard {
+  display: none;
+}
+
+.centerText {
+  position: absolute;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+}
+
+.selectedCardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2; /* Ensure the selected card is above the darkened deck */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mintedCard {
+  width: 300px;
+  height: auto;
+}
+
+.selectedCardContainer .buttons {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: grey;
+}
+
+.descriptionBox {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+}
