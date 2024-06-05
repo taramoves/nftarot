@@ -1,0 +1,45 @@
+@font-face {
+  font-family: "Mermaid";
+  src: local("../pages/mermaid/Mermaid1001.ttf");
+}
+
+* {
+  --color-text-base: #000;
+  --color-fill-home: #ff005c;
+  --color-fill-card-select: #8952ff;
+  --color-fill-card-reveal: #1d9898;
+  --color-fill-container: #ffc700;
+  --color-fill-lavender: #8952ff;
+  --color-fill-seagreen: #1d9898;
+  --color-fill-deep-purple: #6d2afb;
+  --color-button-accent: #ffc700;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+}
+
+button {
+  font-family: "Mermaid";
+  font-weight: 700;
+}
+
+div > p {
+  margin: 1rem;
+}
+
+/* .container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+} */
