@@ -30,7 +30,6 @@
   position: relative;
   border-radius: 50%;
   min-height: 50rem;
-  background-color: var(--color-fill-seagreen);
 }
 
 .cardDeck {
@@ -75,6 +74,12 @@
   text-align: center;
   color: black;
   font-weight: bold;
+  text-transform: uppercase;
+  line-height: 2rem;
+  font-size: 1.5rem; 
+  text-wrap: wrap;
+  width: 40%;
+  min-width: 20rem;
 }
 
 .selectedCardContainer {
@@ -102,9 +107,10 @@
 
 .button {
   padding: 10px 20px;
-  background-color: black;
-  color: white;
-  border: none;
+  background-color: var(--color-fill-container);
+  color: black;
+  border-radius: 5px;
+  border: 3px solid black;
   cursor: pointer;
   transition: background-color 0.3s;
 }
