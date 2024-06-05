@@ -99,6 +99,17 @@ export default function CardSelect() {
       </header>
       <div className={styles.main}>
         <div
+          style={{
+            position: "absolute",
+            borderRadius: "50%",
+            width: "50rem",
+            height: "50rem",
+            margin: "0px auto",
+            border: "3px solid black",
+            backgroundColor: "var(--color-fill-seagreen)",
+          }}
+        ></div>
+        <div
           className={
             selectedCard !== null || mintedCard
               ? styles.cardDeckDark
@@ -137,11 +148,19 @@ export default function CardSelect() {
           <div className={styles.selectedCardContainer}>
             <img src="/Card_Sample.svg" className={styles.mintedCard} />
             <div className={styles.buttons}>
-              <button className={styles.button} onClick={resetSelection}>
-                X
-              </button>
-              <button className={styles.button} onClick={handleMintClick}>
+              <button
+                style={{ fontSize: "1.25rem" }}
+                className={styles.button}
+                onClick={handleMintClick}
+              >
                 MINT
+              </button>
+              <button
+                style={{ fontSize: "1.25rem" }}
+                className={styles.button}
+                onClick={resetSelection}
+              >
+                X
               </button>
             </div>
           </div>

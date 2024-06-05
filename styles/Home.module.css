@@ -43,7 +43,7 @@
   position: absolute;
   width: 100px;
   height: 200px;
-  background-color: blue; /* Blue archway */
+  background-color: var(--color-fill-deep-purple);
   border-top-left-radius: 50px;
   border-top-right-radius: 50px;
   border: 2px solid black;
