@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import styles from "../styles/CardSelect.module.css";
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
+import Header from "../components/Header/Header";
 
 // Function to load CSV file
 const loadCSV = async () => {
@@ -86,17 +87,7 @@ export default function CardSelect() {
       <Head>
         <title>Card Select</title>
       </Head>
-      <header className={styles.header}>
-        <Link href="/" className={styles.headerLink}>
-          home
-        </Link>
-        <Link href="/about" className={styles.headerLink}>
-          about
-        </Link>
-        <Link href="/identity" className={styles.headerLink}>
-          me
-        </Link>
-      </header>
+      <Header />
       <div className={styles.main}>
         <div
           style={{
