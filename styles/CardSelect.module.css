@@ -1,16 +1,17 @@
 .container {
   display: flex;
+  background-color: var(--color-fill-card-select);
   flex-direction: column;
   height: 100vh;
   width: 100vw;
-  background-color: purple; /* Purple background */
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  background-color: red;
+  background-color: var(--color-fill-container);
   padding: 10px;
+  border-bottom: 3px solid black;
 }
 
 .headerLink {
@@ -18,6 +19,7 @@
   font-weight: bold;
   text-decoration: none;
   margin: 0 10px;
+  text-transform: uppercase;
 }
 
 .main {
@@ -25,8 +27,10 @@
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  background-color: green; /* Green background */
   position: relative;
+  border-radius: 50%;
+  min-height: 50rem;
+  background-color: var(--color-fill-seagreen);
 }
 
 .cardDeck {

@@ -4,13 +4,13 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background-color: black; /* Black background */
+  background-color: theme("colors.neonMagenta");
   margin: 0;
   position: relative;
 }
 
 .redBorder {
-  border: 10px solid red; /* Red border */
+  border: 5px solid black;
   box-sizing: border-box;
   height: 90vh;
   width: 90vw;
@@ -20,7 +20,7 @@
 }
 
 .yellowFill {
-  background-color: yellow; /* Yellow fill */
+  background-color: var(--color-fill-container);
   height: 100%;
   width: 100%;
   position: relative;
@@ -37,6 +37,8 @@
   margin-bottom: 20px;
 }
 
+/*going to revisit naming conventions, left for the time being*/
+
 .blueArch {
   position: absolute;
   width: 100px;
@@ -51,7 +53,7 @@
   position: absolute;
   width: 100px;
   height: 200px;
-  background-color: pink; /* Pink archway */
+  background-color: var(--color-fill-lavender);
   border-top-left-radius: 50px;
   border-top-right-radius: 50px;
   border: 2px solid black;
