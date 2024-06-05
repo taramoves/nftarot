@@ -1,12 +1,12 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import styles from '../styles/Home.module.css';
+import Head from "next/head";
+import Link from "next/link";
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>My Custom Landing Page</title>
+        <title>NFTarot Homepage</title>
       </Head>
       <div className={styles.redBorder}>
         <div className={styles.yellowFill}>
@@ -16,7 +16,7 @@ export default function Home() {
               <span className={styles.pinkArch}></span>
             </Link>
           </div>
-          <Link href="/card_select">
+          <Link href="/card_select" style={{ textDecoration: "none" }}>
             <span className={styles.enter}>ENTER</span>
           </Link>
         </div>
