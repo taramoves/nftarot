@@ -7,13 +7,6 @@
   background-color: var(--color-fill-card-reveal);
 }
 
-.card {
-  width: 300px;
-  height: auto;
-  margin-bottom: 20px;
-  z-index: 2;
-}
-
 .descriptionBox {
   margin-top: 20px;
   padding: 10px;
@@ -22,22 +15,6 @@
   border-radius: 5px;
   color: black;
   text-align: center;
-}
-
-.button {
-  padding: 10px 20px;
-  background-color: var(--color-fill-lavender);
-  color: black;
-  border-radius: 5px;
-  border: 3px solid black;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 1rem;
-  font-size: 1.25rem;
-}
-
-.button:hover {
-  background-color: var(--color-fill-deep-purple);
 }
 
 .error {

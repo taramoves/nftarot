@@ -1,12 +1,29 @@
 import styles from "./Card.module.css";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 interface Props {
   className?: string;
   alt: string;
-  src: string;
+  src: string | StaticImageData;
+  width?: number;
+  height?: number;
+  style?: any;
+  onClick?: ()=> void;
 }
 
-export default function Card({ alt, src, ...props }: Props) {
-  return <Image src={src} alt={alt} className={styles.card} {...props} />;
+export default function Card({ alt, src, style, onClick, ...props }: Props) {
+  return (
+    <div style={{ zIndex: 2 }}>
+      <Image
+        src={src}
+        alt={alt}
+        className={styles.card}
+        style={{
+          width: "100%",
+          height: "auto",
+        }}
+        {...props}
+      />
+    </div>
+  );
 }

@@ -1,6 +1,6 @@
 import Navbar from "./components/NavBar/NavBar";
 
-export default function Identity() {
+export default function Archive() {
   return (
     <div>
       <Navbar />

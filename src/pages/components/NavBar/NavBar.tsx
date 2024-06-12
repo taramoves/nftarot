@@ -11,8 +11,8 @@ export default function NavBar() {
         <Link href="/about" className={styles.headerLink}>
           about
         </Link>
-        <Link href="/identity" className={styles.headerLink}>
-          my readings
+        <Link href="/archive" className={styles.headerLink}>
+          archive
         </Link>
       </div>
     </header>

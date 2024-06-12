@@ -1,11 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from './styles/CardSelect.module.css';
+import styles from "../styles/CardSelect.module.css";
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
-import Navbar from "./components/NavBar/NavBar";
-import Button from "./components/Button/Button";
+import Navbar from "../components/NavBar/NavBar";
+import Button from "../components/Button/Button";
+// import Card from "../components/Card/Card";
 
 // Function to load CSV file
 const loadCSV = async () => {
@@ -25,9 +26,14 @@ const loadCSV = async () => {
   });
 };
 
+interface CardState {
+  image: string;
+  text: string;
+}
+
 export default function CardSelect() {
   const [selectedCard, setSelectedCard] = useState(null);
-  const [mintedCard, setMintedCard] = useState(null);
+  const [mintedCard, setMintedCard] = useState<CardState | null>(null);
   const [positions, setPositions] = useState([]);
   const [cards, setCards] = useState([]);
   const router = useRouter();
@@ -78,7 +84,7 @@ export default function CardSelect() {
     const selectedText = cards[randomIndex].text;
     console.log("Minted card:", { image: selectedImage, text: selectedText });
     router.push({
-      pathname: "/card_reveal",
+      pathname: "/card-reveal",
       query: { image: selectedImage, text: selectedText },
     });
   };
@@ -108,8 +114,9 @@ export default function CardSelect() {
               : styles.cardDeck
           }
         >
-          {positions.map((pos, index) => (
+          {positions.map((pos: any, index: number) => (
             <img
+              alt={"cards"}
               key={index}
               src="/Card_Sample.svg"
               className={
@@ -138,10 +145,14 @@ export default function CardSelect() {
           </div>
         ) : selectedCard !== null ? (
           <div className={styles.selectedCardContainer}>
-            <img src="/Card_Sample.svg" className={styles.mintedCard} />
+            <img
+              alt={"card sample"}
+              src="/Card_Sample.svg"
+              className={styles.mintedCard}
+            />
             <div className={styles.buttons}>
-              <Button text="Mint" onClick={handleMintClick}/>
-              <Button text="x" onClick={resetSelection}/>
+              <Button text="Mint" onClick={handleMintClick} />
+              <Button text="x" onClick={resetSelection} />
             </div>
           </div>
         ) : (
