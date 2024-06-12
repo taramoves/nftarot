@@ -1,12 +1,12 @@
 import type { AppProps } from "next/app";
 import localFont from "next/font/local";
-import "../styles/styles.css";
+import "./styles/styles.css";
 
-const myFont = localFont({ src: "./mermaid/Mermaid1001.ttf" });
+const mermaid = localFont({ src: "./mermaid/Mermaid1001.ttf" });
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <main className={myFont.className}>
+    <main className={mermaid.className}>
       <Component {...pageProps} />
     </main>
   );

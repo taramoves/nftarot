@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-fill-container);
+  padding: 10px;
+  border-bottom: 3px solid black;
+}
+
+.headerLink {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0 10px;
+  text-transform: uppercase;
+}
