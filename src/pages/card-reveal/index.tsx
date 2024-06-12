@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
-import styles from "./styles/CardReveal.module.css";
+import styles from "../CardSelect.module.css";
 import NavBar from "@/pages/components/NavBar/NavBar";
 import Button from "@/pages/components/Button/Button";
-import Card from "../pages/components/Card/Card";
+import Card from "../components/Card/Card";
 
 const CardReveal = () => {
   const router = useRouter();
@@ -15,13 +15,18 @@ const CardReveal = () => {
       </div>
     );
   }
-  // need to add border around this page/all pages   border: 3px solid black;
 
   return (
     <>
       <NavBar />
       <div className={styles.container}>
-        <Card src={image} className={styles.card} alt={text} />
+        <Card
+          src={image.toString()}
+          className={styles.card}
+          alt={text.toString()}
+          width={300}
+          height={500}
+        />
         <div
           style={{
             display: "flex",
@@ -42,11 +47,11 @@ const CardReveal = () => {
             <Button
               text={"Archive"}
               style={{ flexGrow: 2, marginLeft: "2.5rem" }}
-              onClick={() => router.push("/identity")}
+              onClick={() => router.push("/archive")}
             />
             <Button
               text={"Restart"}
-              onClick={() => router.push("/card_select")}
+              onClick={() => router.push("/card-select")}
             />
             <Button onClick={() => {}} />
           </div>
