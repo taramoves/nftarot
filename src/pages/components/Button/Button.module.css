@@ -1,0 +1,18 @@
+.button {
+  font-family: inherit;
+  font-size: inherit;
+  padding: 1rem;
+  background-color: var(--color-fill-container);
+  color: black;
+  border-radius: 1rem;
+  border: 3px solid black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &.alt {
+    background-color: var(--color-fill-lavender);
+  }
+}
+
+.button:hover {
+  background-color: var(--color-fill-container);
+}
