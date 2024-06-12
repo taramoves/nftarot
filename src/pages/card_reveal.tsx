@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
-import styles from "../styles/CardReveal.module.css";
-import Header from "../components/Header/Header";
+import styles from "./styles/CardReveal.module.css";
+import NavBar from "@/pages/components/NavBar/NavBar";
+import Button from "@/pages/components/Button/Button";
+import Card from "../pages/components/Card/Card";
 
 const CardReveal = () => {
   const router = useRouter();
@@ -13,12 +15,13 @@ const CardReveal = () => {
       </div>
     );
   }
+  // need to add border around this page/all pages   border: 3px solid black;
 
   return (
     <>
-      <Header />
+      <NavBar />
       <div className={styles.container}>
-        <img src={image} className={styles.card} alt={text} />
+        <Card src={image} className={styles.card} alt={text} />
         <div
           style={{
             display: "flex",
@@ -35,20 +38,17 @@ const CardReveal = () => {
           <div className={styles.descriptionBox}>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </div>
-          <div style={{ display: "flex" }}>
-            <button
-              className={styles.button}
+          <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
+            <Button
+              text={"Archive"}
               style={{ flexGrow: 2, marginLeft: "2.5rem" }}
+              onClick={() => router.push("/identity")}
+            />
+            <Button
+              text={"Restart"}
               onClick={() => router.push("/card_select")}
-            >
-              Back to Card Selection
-            </button>
-            <button className={styles.button} style={{ marginLeft: "1rem" }}>
-              X
-            </button>
-            <button className={styles.button} style={{ marginLeft: "1rem" }}>
-              X
-            </button>
+            />
+            <Button onClick={() => {}} />
           </div>
         </div>
       </div>
