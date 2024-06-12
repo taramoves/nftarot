@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import styles from "../CardSelect.module.css";
+import styles from "../styles/CardReveal.module.css";
 import NavBar from "@/pages/components/NavBar/NavBar";
 import Button from "@/pages/components/Button/Button";
 import Card from "../components/Card/Card";
