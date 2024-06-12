@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "../styles/CardSelect.module.css";
+import styles from './styles/CardSelect.module.css';
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
-import Header from "../components/Header/Header";
+import Navbar from "./components/NavBar/NavBar";
+import Button from "./components/Button/Button";
 
 // Function to load CSV file
 const loadCSV = async () => {
@@ -87,7 +88,7 @@ export default function CardSelect() {
       <Head>
         <title>Card Select</title>
       </Head>
-      <Header />
+      <Navbar />
       <div className={styles.main}>
         <div
           style={{
@@ -139,20 +140,8 @@ export default function CardSelect() {
           <div className={styles.selectedCardContainer}>
             <img src="/Card_Sample.svg" className={styles.mintedCard} />
             <div className={styles.buttons}>
-              <button
-                style={{ fontSize: "1.25rem" }}
-                className={styles.button}
-                onClick={handleMintClick}
-              >
-                MINT
-              </button>
-              <button
-                style={{ fontSize: "1.25rem" }}
-                className={styles.button}
-                onClick={resetSelection}
-              >
-                X
-              </button>
+              <Button text="Mint" onClick={handleMintClick}/>
+              <Button text="x" onClick={resetSelection}/>
             </div>
           </div>
         ) : (
