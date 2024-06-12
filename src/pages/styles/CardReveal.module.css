@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--color-fill-card-reveal);
+}
+
+.descriptionBox {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: var(--color-fill-container);
+  border: 3px solid black;
+  border-radius: 5px;
+  color: black;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 50px;
+}
