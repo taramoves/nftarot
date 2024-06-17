@@ -1,20 +1,36 @@
-import styles from "./NavBar.module.css";
-import Link from "next/link";
+// import styles from "./NavBar.module.css";
+import { Flex, Link, Box } from "@chakra-ui/react";
+import { useMultiStyleConfig, createStylesContext } from "@chakra-ui/react";
+
+const [StylesProvider, useStyles] = createStylesContext("Bar");
+
+function Bar(props: any) {
+  const { children, ...rest } = props;
+
+  const styles = useMultiStyleConfig("NavBar");
+
+  console.log(styles);
+  return (
+    <Flex __css={styles.navbar} {...rest}>
+      <StylesProvider value={styles}>{children}</StylesProvider>
+    </Flex>
+  );
+}
+
+function Links(props: any) {
+  const styles = useStyles();
+
+  return <Link sx={styles.link} {...props} />;
+}
 
 export default function NavBar() {
   return (
-    <header className={styles.header}>
-      <Link href="/" className={styles.headerLink}>
-        home
-      </Link>
-      <div>
-        <Link href="/about" className={styles.headerLink}>
-          about
-        </Link>
-        <Link href="/archive" className={styles.headerLink}>
-          archive
-        </Link>
-      </div>
-    </header>
+    <Bar>
+      <Links href="/">home</Links>
+      <Box>
+        <Links href="/about">about</Links>
+        <Links href="/archive">archive</Links>
+      </Box>
+    </Bar>
   );
 }
