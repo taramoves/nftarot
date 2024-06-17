@@ -9,7 +9,6 @@ function Bar(props: any) {
 
   const styles = useMultiStyleConfig("NavBar");
 
-  console.log(styles);
   return (
     <Flex __css={styles.navbar} {...rest}>
       <StylesProvider value={styles}>{children}</StylesProvider>
@@ -25,7 +24,7 @@ function Links(props: any) {
 
 export default function NavBar() {
   return (
-    <Bar>
+    <Bar styles={{width: '100%'}}>
       <Links href="/">home</Links>
       <Box>
         <Links href="/about">about</Links>

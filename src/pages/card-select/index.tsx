@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import Papa from "papaparse";
 import Navbar from "../components/NavBar/NavBar";
 import { Button, useTheme, Flex } from "@chakra-ui/react";
+import Page from "../components/Page/Page";
 // import Card from "../components/Card/Card";
 
 // Function to load CSV file
@@ -91,15 +92,7 @@ export default function CardSelect() {
   };
 
   return (
-    <Flex
-      style={{
-        backgroundColor: theme.colors.lavender,
-        flexDirection: "column",
-        height: "100vh",
-        width: "100vw",
-        border: "3px solid black",
-      }}
-    >
+    <Page variant={'card select'}>
       <Head>
         <title>Card Select</title>
       </Head>
@@ -176,6 +169,6 @@ export default function CardSelect() {
           </div>
         )}
       </div>
-    </Flex>
+    </Page>
   );
 }
