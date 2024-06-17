@@ -1,13 +1,21 @@
 import type { AppProps } from "next/app";
-import localFont from "next/font/local";
-import "./styles/styles.css";
-
-const mermaid = localFont({ src: "./mermaid/Mermaid1001.ttf" });
+import { ChakraProvider } from '@chakra-ui/react'
+import { customTheme } from "./theme";
+import { fonts } from './lib/fonts'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <main className={mermaid.className}>
+    <>
+    <style jsx global>
+        {`
+          :root {
+            --font-mermaid: ${fonts.mermaid.style.fontFamily};
+          }
+        `}
+      </style>
+    <ChakraProvider resetCSS theme={customTheme}>
       <Component {...pageProps} />
-    </main>
+    </ChakraProvider>
+    </>
   );
 }

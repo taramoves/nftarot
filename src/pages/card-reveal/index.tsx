@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
 import styles from "../styles/CardReveal.module.css";
 import NavBar from "@/pages/components/NavBar/NavBar";
-import Button from "@/pages/components/Button/Button";
+import { Button, IconButton } from "@chakra-ui/react";
 import Card from "../components/Card/Card";
+import { FaShare } from "react-icons/fa";
 
 const CardReveal = () => {
   const router = useRouter();
@@ -44,16 +45,18 @@ const CardReveal = () => {
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </div>
           <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
-            <Button
-              text={"Archive"}
-              style={{ flexGrow: 2, marginLeft: "2.5rem" }}
-              onClick={() => router.push("/archive")}
+            <Button variant={"primaryButton"} onClick={() => router.push("/archive")}>
+              Archive
+            </Button>
+            <Button variant={"primaryButton"} onClick={() => router.push("/card-select")}>
+              Restart
+            </Button>
+            <IconButton
+              variant={"primaryButton"}
+              aria-label="share reading"
+              onClick={() => {}}
+              icon={<FaShare />}
             />
-            <Button
-              text={"Restart"}
-              onClick={() => router.push("/card-select")}
-            />
-            <Button onClick={() => {}} />
           </div>
         </div>
       </div>
