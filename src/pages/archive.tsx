@@ -1,10 +1,16 @@
 import Navbar from "./components/NavBar/NavBar";
+import styles from "./styles/ComingSoon.module.css";
+import { FaWrench } from "react-icons/fa";
 
 export default function Archive() {
+
   return (
-    <div>
+    <div className={styles.container}>
       <Navbar />
-      <h1>Me</h1>
+      <div className={styles.textDescription}>
+        <h1>We're excited to share this with you soon!</h1>
+        <FaWrench style={{ fontSize: "1.5rem", marginLeft: "1rem" }} />
+      </div>
     </div>
   );
 }
