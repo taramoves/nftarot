@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
 import styles from "./styles/Home.module.css";
+import Page from "./components/Page/Page";
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <Page variant={"home"}>
       <Head>
         <title>NFTarot Homepage</title>
       </Head>
@@ -21,6 +22,6 @@ export default function Home() {
           </Link>
         </div>
       </div>
-    </div>
+    </Page>
   );
 }

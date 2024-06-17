@@ -23,4 +23,4 @@ export const customTheme = extendTheme({
   },
 });
 
-console.log(NavBar);
+console.log(FullPage);

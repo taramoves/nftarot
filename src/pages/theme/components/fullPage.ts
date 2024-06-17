@@ -25,6 +25,15 @@ export const FullPage = defineStyleConfig({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: colors.seagreen,
-    }
+        borderTop: 'none',
+    },
+    "about": {
+      backgroundColor: colors.red,
+      flexDirection: "column",
+    },
+    "archive": {
+      backgroundColor: colors.red,
+      flexDirection: "column",
+    },
   },
 });
