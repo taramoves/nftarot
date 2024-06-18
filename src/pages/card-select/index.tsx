@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import styles from "../styles/CardSelect.module.css";
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
-import Navbar from "../components/NavBar/NavBar";
+import Navbar from "../components/NavBar";
 import { Button, useTheme, Flex } from "@chakra-ui/react";
-import Page from "../components/Page/Page";
+import Page from "../components/Page";
 // import Card from "../components/Card/Card";
 
 // Function to load CSV file
@@ -92,7 +92,7 @@ export default function CardSelect() {
   };
 
   return (
-    <Page variant={'card select'}>
+    <Page variant={"card select"}>
       <Head>
         <title>Card Select</title>
       </Head>

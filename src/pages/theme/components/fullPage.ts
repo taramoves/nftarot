@@ -21,9 +21,7 @@ export const FullPage = defineStyleConfig({
       flexDirection: "column",
     },
     "card reveal": {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
+        flexDirection: 'column',
         backgroundColor: colors.seagreen,
         borderTop: 'none',
     },
