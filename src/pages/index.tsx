@@ -1,7 +1,9 @@
 import Head from "next/head";
-import Link from "next/link";
 import styles from "./styles/Home.module.css";
 import Page from "./components/Page";
+import { Box, Link } from "@chakra-ui/react";
+import { colors } from "./theme/foundations/colors";
+import Arch from "./components/Arch";
 
 export default function Home() {
   return (
@@ -10,17 +12,30 @@ export default function Home() {
         <title>NFTarot Homepage</title>
       </Head>
       <div className={styles.redBorder}>
-        <div className={styles.yellowFill}>
-          <div className={styles.archContainer}>
-            <div className={styles.blueArch}></div>
-            <Link href="/card-select">
-              <span className={styles.pinkArch}></span>
-            </Link>
-          </div>
-          <Link href="/card-select" style={{ textDecoration: "none" }}>
-            <span className={styles.enter}>ENTER</span>
+        <Box
+          style={{
+            backgroundColor: colors.yellow,
+            height: "100%",
+            width: "100%",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Arch />
+          <Link
+            href="/card-select"
+            style={{
+              textDecoration: "none",
+              fontSize: "2rem",
+              transition: "color 0.3s",
+            }}
+          >
+            ENTER
           </Link>
-        </div>
+        </Box>
       </div>
     </Page>
   );

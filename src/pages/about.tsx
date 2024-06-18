@@ -1,24 +1,8 @@
 import Navbar from "./components/NavBar";
 import Page from "./components/Page";
 import { Flex, Text } from "@chakra-ui/react";
-import { colors } from "./theme/foundations/colors";
 import TextContainer from "./components/TextContainer";
 
-const boxStyles = {
-  flexDirection: "column",
-  alignItems: "flex-start",
-  width: "80%",
-  margin: "0 auto",
-};
-
-const textSyles = {
-  px: "2rem",
-  py: "1rem",
-  marginTop: "1rem",
-  background: colors.yellow,
-  borderRadius: ".75rem",
-  border: "3px solid black",
-};
 
 export default function About() {
   return (

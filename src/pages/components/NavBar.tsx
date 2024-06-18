@@ -1,4 +1,3 @@
-// import styles from "./NavBar.module.css";
 import { Flex, Link, Box } from "@chakra-ui/react";
 import { useMultiStyleConfig, createStylesContext } from "@chakra-ui/react";
 
