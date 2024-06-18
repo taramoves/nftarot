@@ -4,8 +4,9 @@ import { useRouter } from "next/router";
 import styles from "../styles/CardSelect.module.css";
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
-import Navbar from "../components/NavBar/NavBar";
-import Button from "../components/Button/Button";
+import Navbar from "../components/NavBar";
+import { Button, useTheme, Flex } from "@chakra-ui/react";
+import Page from "../components/Page";
 // import Card from "../components/Card/Card";
 
 // Function to load CSV file
@@ -37,6 +38,7 @@ export default function CardSelect() {
   const [positions, setPositions] = useState([]);
   const [cards, setCards] = useState([]);
   const router = useRouter();
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -90,7 +92,7 @@ export default function CardSelect() {
   };
 
   return (
-    <div className={styles.container}>
+    <Page variant={"card select"}>
       <Head>
         <title>Card Select</title>
       </Head>
@@ -104,7 +106,7 @@ export default function CardSelect() {
             height: "50rem",
             margin: "0px auto",
             border: "3px solid black",
-            backgroundColor: "var(--color-fill-seagreen)",
+            backgroundColor: theme.colors.seagreen,
           }}
         ></div>
         <div
@@ -151,8 +153,12 @@ export default function CardSelect() {
               className={styles.mintedCard}
             />
             <div className={styles.buttons}>
-              <Button text="Mint" onClick={handleMintClick} />
-              <Button text="x" onClick={resetSelection} />
+              <Button variant={"primaryButton"} onClick={handleMintClick}>
+                Mint
+              </Button>
+              <Button variant={"primaryButton"} onClick={resetSelection}>
+                X
+              </Button>
             </div>
           </div>
         ) : (
@@ -163,6 +169,6 @@ export default function CardSelect() {
           </div>
         )}
       </div>
-    </div>
+    </Page>
   );
 }
