@@ -11,6 +11,7 @@ export default function Home() {
       <Head>
         <title>NFTarot Homepage</title>
       </Head>
+      {/* need to fully remove css modules */}
       <div className={styles.redBorder}>
         <Box
           style={{
