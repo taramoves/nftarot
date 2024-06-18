@@ -8,6 +8,7 @@ import { colors } from "./foundations/colors";
 import { Button } from "./components/button";
 import { NavBar } from "./components/navbar";
 import { FullPage } from "./components/fullPage";
+import { TextContainer } from "./components/textContainer";
 
 export const customTheme = extendTheme({
   styles,
@@ -16,6 +17,7 @@ export const customTheme = extendTheme({
     Button,
     NavBar,
     FullPage,
+    TextContainer,
   },
   fonts: {
     heading: "var(--font-mermaid)",

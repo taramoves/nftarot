@@ -11,7 +11,7 @@ interface Props {
   onClick?: ()=> void;
 }
 
-export default function Card({ alt, src, style, onClick, ...props }: Props) {
+export default function SingleCard({ alt, src, style, onClick, ...props }: Props) {
   return (
     <div style={{ zIndex: 2 }}>
       <Image

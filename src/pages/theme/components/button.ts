@@ -9,11 +9,13 @@ export const Button = defineStyleConfig({
   baseStyle: {
     fontWeight: "bold",
     textTransform: "uppercase",
-    borderRadius: "base",
+    borderRadius: "1rem",
     cursor: "pointer",
     border: "3px solid",
     borderColor: "black",
-    bg: "blue",
+    display: "inline-flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   sizes: {
     sm: {
