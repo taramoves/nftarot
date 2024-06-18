@@ -1,10 +1,11 @@
 import Navbar from "./components/NavBar";
 import Page from "./components/Page";
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import TextContainer from "./components/TextContainer";
 
 
 export default function About() {
+
   return (
     <Page variant={"about"}>
       <Navbar />
