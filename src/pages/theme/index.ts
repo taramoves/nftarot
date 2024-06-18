@@ -9,6 +9,7 @@ import { Button } from "./components/button";
 import { NavBar } from "./components/navbar";
 import { FullPage } from "./components/fullPage";
 import { TextContainer } from "./components/textContainer";
+import { Arch } from "./components/arch";
 
 export const customTheme = extendTheme({
   styles,
@@ -18,11 +19,10 @@ export const customTheme = extendTheme({
     NavBar,
     FullPage,
     TextContainer,
+    Arch,
   },
   fonts: {
     heading: "var(--font-mermaid)",
     body: "var(--font-mermaid)",
   },
 });
-
-console.log(FullPage);
