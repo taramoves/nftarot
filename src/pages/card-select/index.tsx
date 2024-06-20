@@ -11,7 +11,9 @@ import Page from "../components/Page";
 
 // Function to load CSV file
 const loadCSV = async () => {
-  const response = await fetch("/cards.csv");
+  const response = await fetch("/cardset.csv");
+
+  console.log(response);
   const reader = response.body.getReader();
   const result = await reader.read();
   const decoder = new TextDecoder("utf-8");
@@ -28,8 +30,10 @@ const loadCSV = async () => {
 };
 
 interface CardState {
-  image: string;
-  text: string;
+  fileName: string;
+  position: string;
+  cardName: string;
+  cardReadMain: string;
 }
 
 export default function CardSelect() {
@@ -82,17 +86,22 @@ export default function CardSelect() {
       return;
     }
     const randomIndex = Math.floor(Math.random() * cards.length);
-    const selectedImage = `/decks/riderwaithe/${cards[randomIndex].image}`;
-    const selectedText = cards[randomIndex].text;
-    console.log("Minted card:", { image: selectedImage, text: selectedText });
+    const selectedImage = `/decks/riderwaithe/${cards[randomIndex].fileName}`;
+    const selectedText = cards[randomIndex].cardName;
+    const selectedCardDescription = cards[randomIndex].cardReadMain;
+    console.log("Minted card:", {
+      fileName: selectedImage,
+      cardName: selectedText,
+      cardReadMain: selectedCardDescription,
+    });
     router.push({
       pathname: "/card-reveal",
-      query: { image: selectedImage, text: selectedText },
+      query: { fileName: selectedImage, cardName: selectedText, cardReadMain: selectedCardDescription },
     });
   };
 
   return (
-    <Page variant={"card select"}>
+    <Page variant={"main"}>
       <Head>
         <title>Card Select</title>
       </Head>
@@ -136,13 +145,13 @@ export default function CardSelect() {
         {mintedCard ? (
           <div className={styles.selectedCardContainer}>
             <img
-              src={mintedCard.image}
+              src={mintedCard.fileName}
               className={styles.mintedCard}
-              alt={mintedCard.text}
+              alt={mintedCard.cardName}
             />
             <div className={styles.descriptionBox}>
-              <p>{mintedCard.text}</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <p>{mintedCard.cardName}</p>
+              <p>{mintedCard.cardReadMain}</p>
             </div>
           </div>
         ) : selectedCard !== null ? (
