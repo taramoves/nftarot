@@ -14,7 +14,7 @@ export default function Archive() {
           alignItems: "center",
         }}
       >
-        <h1>We're excited to share this with you soon!</h1>
+        <h1>We&aposre excited to share this with you soon!</h1>
         <FaWrench style={{ fontSize: "1.5rem", marginLeft: "1rem" }} />
       </Flex>
     </Page>
