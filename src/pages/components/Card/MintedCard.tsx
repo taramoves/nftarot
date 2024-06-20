@@ -48,7 +48,9 @@ export default function MintedCard({
           display: "flex",
           flexDirection: "column",
           marginLeft: "-1.5rem",
-          marginTop: '3rem'
+          marginTop: '3rem',
+          maxWidth: '35%'
+
         }}
       >
         <TextContainer variant={"card name"} size={"xl"}>

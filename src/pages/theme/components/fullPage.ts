@@ -16,6 +16,10 @@ export const FullPage = defineStyleConfig({
       alignItems: "center",
       justifyContent: "center",
     },
+    main: {
+      backgroundColor: colors.lavender,
+      flexDirection: "column",
+    },
     "card select": {
       backgroundColor: colors.lavender,
       flexDirection: "column",
