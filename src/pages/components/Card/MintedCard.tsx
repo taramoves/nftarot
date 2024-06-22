@@ -68,15 +68,15 @@ export default function MintedCard({
           <Button
             variant={"primaryButton"}
             style={{marginLeft: '3rem'}}
-            onClick={() => router.push("/archive")}
+            onClick={() => router.push("/profile")}
           >
-            Go to Archive
+            Past Readings
           </Button>
           <Button
             variant={"primaryButton"}
             onClick={() => router.push("/card-select")}
           >
-            Pick Again
+            Restart
           </Button>
           <IconButton
             variant={"primaryButton"}

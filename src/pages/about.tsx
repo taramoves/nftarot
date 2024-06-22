@@ -5,7 +5,7 @@ import TextContainer from "./components/TextContainer";
 
 export default function About() {
   return (
-    <Page variant={"main"}>
+    <Page variant={"about"}>
       <Navbar />
       <Flex
         style={{

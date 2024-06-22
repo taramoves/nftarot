@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   output: "export",
   reactStrictMode: true,
@@ -8,6 +9,9 @@ const nextConfig = {
   trailingSlash: true,
   compilerOptions: {
     skipLibCheck: true,
+  },
+  experimental: {
+    typedRoutes: true,
   },
   include: [
     "index.d.ts",
