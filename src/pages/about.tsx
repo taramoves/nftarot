@@ -3,20 +3,21 @@ import Page from "./components/Page";
 import { Flex } from "@chakra-ui/react";
 import TextContainer from "./components/TextContainer";
 
-
 export default function About() {
-
   return (
     <Page variant={"main"}>
       <Navbar />
       <Flex
         style={{
           flexDirection: "column",
-          alignItems: "flex-start",
+          alignItems: "center",
           width: "90%",
           margin: "2rem auto",
         }}
       >
+        <TextContainer variant={"title"} size={"xxl"}>
+          About NFTarot
+        </TextContainer>
         <TextContainer variant={"title"}>Your Tarot Journey</TextContainer>
         <TextContainer variant={"description"}>
           Select the card(s) that feels right for you. Pixels are vibrant visual
@@ -55,6 +56,7 @@ export default function About() {
           and ancient systems of energy exchange. Our web application NFTarot
           built for the Base Buildathon 2024 explores this exchange.
         </TextContainer>
+        <TextContainer variant={"title"}>Team</TextContainer>
       </Flex>
     </Page>
   );

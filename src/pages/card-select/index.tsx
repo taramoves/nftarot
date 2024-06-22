@@ -5,8 +5,9 @@ import styles from "../styles/CardSelect.module.css";
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
 import Navbar from "../components/NavBar";
-import { Button, useTheme, Flex } from "@chakra-ui/react";
+import { Button, useTheme, useDisclosure } from "@chakra-ui/react";
 import Page from "../components/Page";
+import BeginModal from "../components/BeginModal";
 // import Card from "../components/Card/Card";
 
 // Function to load CSV file
@@ -41,8 +42,11 @@ export default function CardSelect() {
   const [mintedCard, setMintedCard] = useState<CardState | null>(null);
   const [positions, setPositions] = useState([]);
   const [cards, setCards] = useState([]);
+  const [showModal, setShowModal] = useState(true);
+
   const router = useRouter();
   const theme = useTheme();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -96,7 +100,11 @@ export default function CardSelect() {
     });
     router.push({
       pathname: "/card-reveal",
-      query: { fileName: selectedImage, cardName: selectedText, cardReadMain: selectedCardDescription },
+      query: {
+        fileName: selectedImage,
+        cardName: selectedText,
+        cardReadMain: selectedCardDescription,
+      },
     });
   };
 
@@ -171,12 +179,13 @@ export default function CardSelect() {
             </div>
           </div>
         ) : (
-          <div className={styles.centerText}>
-            <p>BREATHE DEEPLY</p>
-            <p>FOCUS ON YOUR INTENTION</p>
-            <p>WHEN YOU'RE READY SELECT YOUR CARD(S)</p>
-          </div>
+          <BeginModal
+            isOpen={showModal}
+            onClose={()=> setShowModal(false)}
+            onClick={()=> {}}
+          />
         )}
+        {/* need to reconstruct these conditions */}
       </div>
     </Page>
   );
