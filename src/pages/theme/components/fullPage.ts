@@ -20,22 +20,10 @@ export const FullPage = defineStyleConfig({
       backgroundColor: colors.lavender,
       flexDirection: "column",
     },
-    "card select": {
+    about: {
       backgroundColor: colors.lavender,
       flexDirection: "column",
-    },
-    "card reveal": {
-        flexDirection: 'column',
-        backgroundColor: colors.seagreen,
-        borderTop: 'none',
-    },
-    "about": {
-      backgroundColor: colors.red,
-      flexDirection: "column",
-    },
-    "archive": {
-      backgroundColor: colors.red,
-      flexDirection: "column",
+      height: "100%",
     },
   },
 });

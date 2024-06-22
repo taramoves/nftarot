@@ -26,7 +26,7 @@ export default function BeginModal({ onClick, isOpen, onClose, ...props }: Modal
             <br />
             Focus on your intentions.
             <br />
-            When you’re ready, click begin to select your card.
+            {`When you’re ready, click "begin" to select your card.`}
           </ModalBody>
           <Button
             variant={"primaryButton"}
