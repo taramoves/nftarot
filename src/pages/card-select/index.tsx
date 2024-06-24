@@ -1,7 +1,6 @@
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "../styles/CardSelect.module.css";
+import styles from "@/styles/CardSelect.module.css";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/NavBar";
 import { Button, useTheme, useDisclosure } from "@chakra-ui/react";
