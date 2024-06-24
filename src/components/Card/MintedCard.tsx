@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import SingleCard from "./SingleCard";
 import TextContainer from "@/components/TextContainer";
 import { FaShare } from "react-icons/fa";
-import styles from "@/styles/CardReveal.module.css";
+import styles from "../../styles/CardReveal.module.css";
 import { StaticImageData } from "next/image";
 // import Date from "./Date";
 
