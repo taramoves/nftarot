@@ -5,6 +5,7 @@ import TextContainer from "../TextContainer";
 import { FaShare } from "react-icons/fa";
 import styles from "../../styles/CardReveal.module.css";
 import { StaticImageData } from "next/image";
+// import Date from "./Date";
 
 interface Props {
   className?: string;
@@ -48,11 +49,11 @@ export default function MintedCard({
           display: "flex",
           flexDirection: "column",
           marginLeft: "-1.5rem",
-          marginTop: '3rem',
-          maxWidth: '35%'
-
+          marginTop: "3rem",
+          maxWidth: "35%",
         }}
       >
+        {/* <Date/> */}
         <TextContainer variant={"card name"} size={"xl"}>
           {text}
         </TextContainer>
@@ -63,11 +64,12 @@ export default function MintedCard({
             gap: "1rem",
             marginRight: "1.5rem",
             justifyContent: "flex-end",
+            minWidth: "100%",
           }}
         >
           <Button
             variant={"primaryButton"}
-            style={{marginLeft: '3rem'}}
+            style={{ marginLeft: "3rem" }}
             onClick={() => router.push("/profile")}
           >
             Past Readings

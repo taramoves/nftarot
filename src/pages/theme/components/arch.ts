@@ -30,7 +30,6 @@ export const Arch = helpers.defineMultiStyleConfig({
       border: "2px solid black",
       left: "10px",
       top: 0,
-      transition: "background-color 0.3s",
       _hover: {
         backgroundColor: colors.yellow,
       },
