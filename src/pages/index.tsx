@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Page from "./components/Page";
 import { Box, Link, Flex } from "@chakra-ui/react";
-import { colors } from "./theme/foundations/colors";
+import { colors } from "./lib/theme/foundations/colors";
 import Arch from "./components/Arch";
 
 export default function Home() {
