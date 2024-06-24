@@ -1,7 +1,7 @@
-import Navbar from "./components/NavBar";
-import Page from "./components/Page";
+import Navbar from "@/components/NavBar";
+import Page from "@/components/Page";
 import { Flex } from "@chakra-ui/react";
-import TextContainer from "./components/TextContainer";
+import TextContainer from "@/components/TextContainer";
 
 export default function About() {
   return (

@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
-import { customTheme } from "./lib/theme";
+import { customTheme } from "./theme";
 import { fonts } from "./lib/fonts";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
