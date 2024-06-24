@@ -1,4 +1,4 @@
-import styles from "../../styles/Card.module.css";
+import styles from "../../styles/CardSelect.module.css";
 import Image, { StaticImageData } from "next/image";
 
 interface Props {
