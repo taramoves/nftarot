@@ -10,9 +10,6 @@ const nextConfig = {
   compilerOptions: {
     skipLibCheck: true,
   },
-  experimental: {
-    typedRoutes: true,
-  },
   include: [
     "index.d.ts",
     "next-env.d.ts",

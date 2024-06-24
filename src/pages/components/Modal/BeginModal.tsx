@@ -2,20 +2,23 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
   Button,
 } from "@chakra-ui/react";
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () =>{};
-  onClick?: () => {};
+  onClose: () => void;
+  onClick?: () => void;
 }
 
-export default function BeginModal({ onClick, isOpen, onClose, ...props }: ModalProps) {
+export default function BeginModal({
+  onClick,
+  isOpen,
+  onClose,
+  ...props
+}: ModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
       <ModalOverlay>

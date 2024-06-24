@@ -8,10 +8,16 @@ interface Props {
   width?: number;
   height?: number;
   style?: any;
-  onClick?: ()=> void;
+  onClick?: () => void;
 }
 
-export default function SingleCard({ alt, src, style, onClick, ...props }: Props) {
+export default function SingleCard({
+  alt,
+  src,
+  style,
+  onClick,
+  ...props
+}: Props) {
   return (
     <div style={{ zIndex: 2 }}>
       <Image
@@ -21,6 +27,8 @@ export default function SingleCard({ alt, src, style, onClick, ...props }: Props
         style={{
           width: "100%",
           height: "auto",
+          borderRadius: "2.2rem",
+          border: "3px solid black",
         }}
         {...props}
       />

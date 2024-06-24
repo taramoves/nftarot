@@ -3,32 +3,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/CardSelect.module.css";
 import { useState, useEffect } from "react";
-import Papa from "papaparse";
 import Navbar from "../components/NavBar";
 import { Button, useTheme, useDisclosure } from "@chakra-ui/react";
 import Page from "../components/Page";
-import BeginModal from "../components/BeginModal";
+import BeginModal from "../components/Modal/BeginModal";
+import PrivyModal from "../components/Modal/PrivyModal";
 // import Card from "../components/Card/Card";
 
-// Function to load CSV file
-const loadCSV = async () => {
-  const response = await fetch("/cardset.csv");
-
-  console.log(response);
-  const reader = response.body.getReader();
-  const result = await reader.read();
-  const decoder = new TextDecoder("utf-8");
-  const csv = decoder.decode(result.value);
-  return new Promise((resolve, reject) => {
-    Papa.parse(csv, {
-      header: true,
-      complete: (results) => {
-        resolve(results.data);
-      },
-      error: (error) => reject(error),
-    });
-  });
-};
 
 interface CardState {
   fileName: string;
@@ -41,17 +22,22 @@ export default function CardSelect() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [mintedCard, setMintedCard] = useState<CardState | null>(null);
   const [positions, setPositions] = useState([]);
-  const [cards, setCards] = useState([]);
-  const [showModal, setShowModal] = useState(true);
+  const [cards, setCards] = useState<any>([]);
+  const [showBeginModal, setShowBeginModal] = useState(true);
+  const [showPrivyModal, setShowPrivyModal] = useState<any>(false);
 
   const router = useRouter();
   const theme = useTheme();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  // const openPrivyModal = () => {
+  //   setShowPrivyModal(true);
+  // };
+
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const cardData = await loadCSV();
+        const cardData = [] as any;
         setCards(cardData);
         console.log("Cards loaded:", cardData);
       } catch (error) {
@@ -72,10 +58,10 @@ export default function CardSelect() {
       newPositions.push({ x, y, angle });
     }
 
-    setPositions(newPositions);
+    setPositions(newPositions as any);
   }, []);
 
-  const handleCardClick = (cardIndex) => {
+  const handleCardClick = (cardIndex: any) => {
     setSelectedCard(cardIndex);
   };
 
@@ -114,6 +100,7 @@ export default function CardSelect() {
         <title>Card Select</title>
       </Head>
       <Navbar />
+      <PrivyModal isOpen={showPrivyModal} onClose={()=> setShowPrivyModal(false)} />
       <div className={styles.main}>
         <div
           style={{
@@ -180,9 +167,9 @@ export default function CardSelect() {
           </div>
         ) : (
           <BeginModal
-            isOpen={showModal}
-            onClose={()=> setShowModal(false)}
-            onClick={()=> {}}
+            isOpen={showBeginModal}
+            onClose={() => setShowBeginModal(false)}
+            onClick={()=> setShowPrivyModal(true)}
           />
         )}
         {/* need to reconstruct these conditions */}

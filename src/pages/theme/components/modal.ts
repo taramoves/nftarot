@@ -40,5 +40,18 @@ export const Modal = helpers.defineMultiStyleConfig({
     footer: {},
   },
   sizes: {},
-  variants: {},
+  variants: {
+    privy: {
+      dialog: {
+        borderRadius: "1rem",
+        backgroundColor: colors.yellow,
+        border: "3px solid black",
+        textAlign: 'center',
+      },
+      body: {
+        backgroundColor: 'inherit',
+        border: 'none',
+      }
+    }
+  },
 });

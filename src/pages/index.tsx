@@ -1,7 +1,6 @@
 import Head from "next/head";
-import styles from "./styles/Home.module.css";
 import Page from "./components/Page";
-import { Box, Link } from "@chakra-ui/react";
+import { Box, Link, Flex } from "@chakra-ui/react";
 import { colors } from "./theme/foundations/colors";
 import Arch from "./components/Arch";
 
@@ -11,8 +10,16 @@ export default function Home() {
       <Head>
         <title>NFTarot Homepage</title>
       </Head>
-      {/* need to fully remove css modules */}
-      <div className={styles.redBorder}>
+      <Flex
+        style={{
+          border: "3px solid black",
+          boxSizing: "border-box",
+          height: "90vh",
+          width: "90vw",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Box
           style={{
             backgroundColor: colors.yellow,
@@ -31,13 +38,12 @@ export default function Home() {
             style={{
               textDecoration: "none",
               fontSize: "2rem",
-              transition: "color 0.3s",
             }}
           >
             ENTER
           </Link>
         </Box>
-      </div>
+      </Flex>
     </Page>
   );
 }
