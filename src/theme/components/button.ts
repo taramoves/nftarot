@@ -1,5 +1,5 @@
 import { defineStyle, defineStyleConfig } from "@chakra-ui/react";
-import { colors } from "../foundations/colors";
+import { colors } from "@/theme/foundations/colors";
 
 const primaryButton = defineStyle({
   background: colors.yellow,
