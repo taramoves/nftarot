@@ -1,4 +1,4 @@
-import { createMultiStyleConfigHelpers } from "@chakra-ui/react";
+import { createMultiStyleConfigHelpers, defineStyle } from "@chakra-ui/react";
 import { colors } from "../foundations/colors";
 
 const helpers = createMultiStyleConfigHelpers(["navbar", "link"]);
@@ -20,6 +20,9 @@ export const NavBar = helpers.defineMultiStyleConfig({
       _hover: {
         textDecoration: "none",
         fontWeight: 700,
+      },
+      _active: {
+        textDecoration: "underline",
       },
     },
   },
