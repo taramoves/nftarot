@@ -1,5 +1,5 @@
 import { createMultiStyleConfigHelpers } from "@chakra-ui/react";
-import { colors } from "../foundations/colors";
+import { colors } from "@/theme/foundations/colors";
 
 const helpers = createMultiStyleConfigHelpers(["container", "arch1", "arch2"]);
 
