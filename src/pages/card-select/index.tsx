@@ -3,11 +3,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/CardSelect.module.css";
 import { useState, useEffect } from "react";
-import Navbar from "../components/NavBar";
+import Navbar from "@/components/NavBar";
 import { Button, useTheme, useDisclosure } from "@chakra-ui/react";
-import Page from "../components/Page";
-import BeginModal from "../components/Modal/BeginModal";
-import PrivyModal from "../components/Modal/PrivyModal";
+import Page from "@/components/Page";
+import BeginModal from "@/components/Modal/BeginModal";
+import PrivyModal from "@/components/Modal/PrivyModal";
 // import Card from "../components/Card/Card";
 
 

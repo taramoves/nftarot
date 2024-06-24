@@ -1,8 +1,8 @@
-import Navbar from "./components/NavBar";
-import Page from "./components/Page";
+import Navbar from "@/components/NavBar";
+import Page from "@/components/Page";
 import { useRouter } from "next/router";
 import { Flex, Button } from "@chakra-ui/react";
-import TextContainer from "./components/TextContainer";
+import TextContainer from "@/components/TextContainer";
 
 export default function Profile() {
   const router = useRouter();
