@@ -3,47 +3,41 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/CardSelect.module.css";
 import { useState, useEffect } from "react";
-import Papa from "papaparse";
 import Navbar from "../components/NavBar";
-import { Button, useTheme, Flex } from "@chakra-ui/react";
+import { Button, useTheme, useDisclosure } from "@chakra-ui/react";
 import Page from "../components/Page";
+import BeginModal from "../components/Modal/BeginModal";
+import PrivyModal from "../components/Modal/PrivyModal";
 // import Card from "../components/Card/Card";
 
-// Function to load CSV file
-const loadCSV = async () => {
-  const response = await fetch("/cards.csv");
-  const reader = response.body.getReader();
-  const result = await reader.read();
-  const decoder = new TextDecoder("utf-8");
-  const csv = decoder.decode(result.value);
-  return new Promise((resolve, reject) => {
-    Papa.parse(csv, {
-      header: true,
-      complete: (results) => {
-        resolve(results.data);
-      },
-      error: (error) => reject(error),
-    });
-  });
-};
 
 interface CardState {
-  image: string;
-  text: string;
+  fileName: string;
+  position: string;
+  cardName: string;
+  cardReadMain: string;
 }
 
 export default function CardSelect() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [mintedCard, setMintedCard] = useState<CardState | null>(null);
   const [positions, setPositions] = useState([]);
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<any>([]);
+  const [showBeginModal, setShowBeginModal] = useState(true);
+  const [showPrivyModal, setShowPrivyModal] = useState<any>(false);
+
   const router = useRouter();
   const theme = useTheme();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // const openPrivyModal = () => {
+  //   setShowPrivyModal(true);
+  // };
 
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const cardData = await loadCSV();
+        const cardData = [] as any;
         setCards(cardData);
         console.log("Cards loaded:", cardData);
       } catch (error) {
@@ -64,10 +58,10 @@ export default function CardSelect() {
       newPositions.push({ x, y, angle });
     }
 
-    setPositions(newPositions);
+    setPositions(newPositions as any);
   }, []);
 
-  const handleCardClick = (cardIndex) => {
+  const handleCardClick = (cardIndex: any) => {
     setSelectedCard(cardIndex);
   };
 
@@ -82,21 +76,31 @@ export default function CardSelect() {
       return;
     }
     const randomIndex = Math.floor(Math.random() * cards.length);
-    const selectedImage = `/decks/riderwaithe/${cards[randomIndex].image}`;
-    const selectedText = cards[randomIndex].text;
-    console.log("Minted card:", { image: selectedImage, text: selectedText });
+    const selectedImage = `/decks/riderwaithe/${cards[randomIndex].fileName}`;
+    const selectedText = cards[randomIndex].cardName;
+    const selectedCardDescription = cards[randomIndex].cardReadMain;
+    console.log("Minted card:", {
+      fileName: selectedImage,
+      cardName: selectedText,
+      cardReadMain: selectedCardDescription,
+    });
     router.push({
       pathname: "/card-reveal",
-      query: { image: selectedImage, text: selectedText },
+      query: {
+        fileName: selectedImage,
+        cardName: selectedText,
+        cardReadMain: selectedCardDescription,
+      },
     });
   };
 
   return (
-    <Page variant={"card select"}>
+    <Page variant={"main"}>
       <Head>
         <title>Card Select</title>
       </Head>
       <Navbar />
+      <PrivyModal isOpen={showPrivyModal} onClose={()=> setShowPrivyModal(false)} />
       <div className={styles.main}>
         <div
           style={{
@@ -136,13 +140,13 @@ export default function CardSelect() {
         {mintedCard ? (
           <div className={styles.selectedCardContainer}>
             <img
-              src={mintedCard.image}
+              src={mintedCard.fileName}
               className={styles.mintedCard}
-              alt={mintedCard.text}
+              alt={mintedCard.cardName}
             />
             <div className={styles.descriptionBox}>
-              <p>{mintedCard.text}</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <p>{mintedCard.cardName}</p>
+              <p>{mintedCard.cardReadMain}</p>
             </div>
           </div>
         ) : selectedCard !== null ? (
@@ -162,12 +166,13 @@ export default function CardSelect() {
             </div>
           </div>
         ) : (
-          <div className={styles.centerText}>
-            <p>BREATHE DEEPLY</p>
-            <p>FOCUS ON YOUR INTENTION</p>
-            <p>WHEN YOU'RE READY SELECT YOUR CARD(S)</p>
-          </div>
+          <BeginModal
+            isOpen={showBeginModal}
+            onClose={() => setShowBeginModal(false)}
+            onClick={()=> setShowPrivyModal(true)}
+          />
         )}
+        {/* need to reconstruct these conditions */}
       </div>
     </Page>
   );

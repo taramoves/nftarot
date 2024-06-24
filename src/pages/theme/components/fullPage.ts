@@ -16,22 +16,14 @@ export const FullPage = defineStyleConfig({
       alignItems: "center",
       justifyContent: "center",
     },
-    "card select": {
+    main: {
       backgroundColor: colors.lavender,
       flexDirection: "column",
     },
-    "card reveal": {
-        flexDirection: 'column',
-        backgroundColor: colors.seagreen,
-        borderTop: 'none',
-    },
-    "about": {
-      backgroundColor: colors.red,
+    about: {
+      backgroundColor: colors.lavender,
       flexDirection: "column",
-    },
-    "archive": {
-      backgroundColor: colors.red,
-      flexDirection: "column",
+      height: "100%",
     },
   },
 });

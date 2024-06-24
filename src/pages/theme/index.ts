@@ -10,6 +10,8 @@ import { NavBar } from "./components/navbar";
 import { FullPage } from "./components/fullPage";
 import { TextContainer } from "./components/textContainer";
 import { Arch } from "./components/arch";
+import { Modal } from "./components/modal";
+import { Date } from "./components/date";
 
 export const customTheme = extendTheme({
   styles,
@@ -20,6 +22,8 @@ export const customTheme = extendTheme({
     FullPage,
     TextContainer,
     Arch,
+    Modal,
+    Date,
   },
   fonts: {
     heading: "var(--font-mermaid)",

@@ -10,9 +10,9 @@ import MintedCard from "../components/Card/MintedCard";
 
 const CardReveal = () => {
   const router = useRouter();
-  const { image, text } = router.query;
+  const { fileName, cardName, cardReadMain } = router.query;
 
-  if (!image || !text) {
+  if (!fileName || !cardName || !cardReadMain) {
     return (
       <div
         style={{
@@ -29,14 +29,14 @@ const CardReveal = () => {
 
   return (
     <>
-      <Page variant={"card reveal"}>
+      <Page variant={"main"}>
         <NavBar />
 
         <MintedCard
-          src={image.toString()}
-          alt={text.toString()}
-          description="Lorem ipsum dolor sit"
-          text={text.toString()}
+          src={fileName.toString()}
+          alt={cardName.toString()}
+          description={cardReadMain.toString()}
+          text={cardName.toString()}
         />
       </Page>
     </>

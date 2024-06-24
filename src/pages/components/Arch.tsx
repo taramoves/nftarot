@@ -7,7 +7,7 @@ function ArchContainer(props: any) {
   const { children, ...rest } = props;
 
   const styles = useMultiStyleConfig("Arch");
-console.log(styles)
+
   return (
     <Flex __css={styles.container} {...rest}>
       <StylesProvider value={styles}>{children}</StylesProvider>
@@ -25,7 +25,7 @@ function Arch2(props: any) {
   const styles = useStyles();
 
   return (
-    <Link {...props}sx={styles.arch2}>
+    <Link {...props} sx={styles.arch2}>
     </Link>
   );
 }
@@ -34,7 +34,6 @@ export default function Arch() {
   return (
     <ArchContainer>
       <Arch1 />
-      {/* links will need to be changeable in the future */}
       <Arch2 href="/card-select"/>
     </ArchContainer>
   );
