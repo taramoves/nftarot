@@ -1,5 +1,5 @@
 import { defineStyleConfig } from "@chakra-ui/react";
-import { colors } from "../foundations/colors";
+import { colors } from "@/theme/foundations/colors";
 
 export const FullPage = defineStyleConfig({
   baseStyle: {

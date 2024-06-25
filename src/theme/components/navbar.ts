@@ -1,5 +1,5 @@
 import { createMultiStyleConfigHelpers, defineStyle } from "@chakra-ui/react";
-import { colors } from "../foundations/colors";
+import { colors } from "@/theme/foundations/colors";
 
 const helpers = createMultiStyleConfigHelpers(["navbar", "link"]);
 
