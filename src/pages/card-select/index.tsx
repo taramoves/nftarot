@@ -7,8 +7,11 @@ import { Button, useTheme, useDisclosure } from "@chakra-ui/react";
 import Page from "@/components/Page";
 import BeginModal from "@/components/Modal/BeginModal";
 import PrivyModal from "@/components/Modal/PrivyModal";
+import usePrivyWalletClient from "@/hooks/usePrivyWalletClient";
+import { baseSepolia } from "viem/chains";
+import { usePrivy } from "@privy-io/react-auth";
+import { zoraCreator1155ImplABI } from '@zoralabs/protocol-deployments';
 // import Card from "../components/Card/Card";
-
 
 interface CardState {
   fileName: string;
@@ -24,6 +27,9 @@ export default function CardSelect() {
   const [cards, setCards] = useState<any>([]);
   const [showBeginModal, setShowBeginModal] = useState(true);
   const [showPrivyModal, setShowPrivyModal] = useState<any>(false);
+
+  const { walletClient } = usePrivyWalletClient(baseSepolia.id);
+  const { ready, authenticated, login } = usePrivy();
 
   const router = useRouter();
   const theme = useTheme();
@@ -70,27 +76,37 @@ export default function CardSelect() {
   };
 
   const handleMintClick = () => {
-    if (cards.length === 0) {
-      console.error("No cards available");
-      return;
-    }
-    const randomIndex = Math.floor(Math.random() * cards.length);
-    const selectedImage = `/decks/riderwaithe/${cards[randomIndex].fileName}`;
-    const selectedText = cards[randomIndex].cardName;
-    const selectedCardDescription = cards[randomIndex].cardReadMain;
-    console.log("Minted card:", {
-      fileName: selectedImage,
-      cardName: selectedText,
-      cardReadMain: selectedCardDescription,
+    console.log("clicked", walletClient);
+    login();
+    await walletClient.writeContract({
+      address: "0xB4a8b1B9183Fa50636a8578D81290e595A7Ed005",
+      abi: zoraCreator1155ImplABI,
+      functionName: "mintWithRewards",
+      args: [minter:'', internalType: '', type: ''],
+      account,
     });
-    router.push({
-      pathname: "/card-reveal",
-      query: {
-        fileName: selectedImage,
-        cardName: selectedText,
-        cardReadMain: selectedCardDescription,
-      },
-    });
+
+    // if (cards.length === 0) {
+    //   console.error("No cards available");
+    //   return;
+    // }
+    // const randomIndex = Math.floor(Math.random() * cards.length);
+    // const selectedImage = `/decks/riderwaithe/${cards[randomIndex].fileName}`;
+    // const selectedText = cards[randomIndex].cardName;
+    // const selectedCardDescription = cards[randomIndex].cardReadMain;
+    // console.log("Minted card:", {
+    //   fileName: selectedImage,
+    //   cardName: selectedText,
+    //   cardReadMain: selectedCardDescription,
+    // });
+    // router.push({
+    //   pathname: "/card-reveal",
+    //   query: {
+    //     fileName: selectedImage,
+    //     cardName: selectedText,
+    //     cardReadMain: selectedCardDescription,
+    //   },
+    // });
   };
 
   return (
@@ -99,7 +115,10 @@ export default function CardSelect() {
         <title>Card Select</title>
       </Head>
       <Navbar />
-      <PrivyModal isOpen={showPrivyModal} onClose={()=> setShowPrivyModal(false)} />
+      <PrivyModal
+        isOpen={showPrivyModal}
+        onClose={() => setShowPrivyModal(false)}
+      />
       <div className={styles.main}>
         <div
           style={{
@@ -168,7 +187,7 @@ export default function CardSelect() {
           <BeginModal
             isOpen={showBeginModal}
             onClose={() => setShowBeginModal(false)}
-            onClick={()=> setShowPrivyModal(true)}
+            onClick={() => setShowPrivyModal(true)}
           />
         )}
         {/* need to reconstruct these conditions */}
