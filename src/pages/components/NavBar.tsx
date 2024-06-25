@@ -1,6 +1,9 @@
-import { Flex, Link, Box } from "@chakra-ui/react";
+import React from 'react';
+import { Flex, Link, Box, Button } from "@chakra-ui/react";
 import { useMultiStyleConfig, createStylesContext } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
+import { usePrivy } from '@privy-io/react-auth';
+import { useRouter } from 'next/router';
 
 const [StylesProvider, useStyles] = createStylesContext("Bar");
 
@@ -23,7 +26,15 @@ function Links(props: any) {
 
 export default function NavBar() {
   const currentPath = usePathname();
-  // ugly solution to pathname variant
+  const { logout, authenticated } = usePrivy();
+  const router = useRouter();
+
+  const handleExit = async () => {
+    if (authenticated) {
+      await logout();
+      router.push('/');
+    }
+  };
 
   return (
     <Bar styles={{ width: "100%" }}>
@@ -50,6 +61,15 @@ export default function NavBar() {
         >
           about
         </Links>
+        {authenticated && (
+          <Button
+            onClick={handleExit}
+            variant="primaryButton"
+            size="sm"
+          >
+            exit
+          </Button>
+        )}
       </Box>
     </Bar>
   );
