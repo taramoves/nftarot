@@ -7,23 +7,62 @@ import { FaShare } from "react-icons/fa";
 import Page from "@/components/Page";
 import TextContainer from "@/components/TextContainer";
 import MintedCard from "@/components/Card/MintedCard";
+import { useEffect, useState } from "react";
+import { getRandomCard, Card as CardType } from "@/utils/cardUtils";
 
 const CardReveal = () => {
   const router = useRouter();
-  const { fileName, cardName, cardReadMain } = router.query;
+  const [cardData, setCardData] = useState<CardType | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!fileName || !cardName || !cardReadMain) {
+  useEffect(() => {
+    const fetchCard = async () => {
+      setLoading(true);
+      try {
+        const deckId = "d8a4f60f-f3bf-44df-9218-7a10e4dfdf46"; // Your deck ID
+        const card = await getRandomCard(deckId);
+        console.log(card);
+        if (card) {
+          setCardData(card);
+        } else {
+          setError("Failed to fetch card data");
+        }
+      } catch (err) {
+        setError("An error occurred while fetching the card");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCard();
+  }, []);
+
+  if (loading) {
     return (
-      <div
-        style={{
-          color: "red",
-          fontWeight: "bold",
-          textAlign: "center",
-          marginTop: "50px",
-        }}
-      >
-        No card selected. Please go back and select a card.
-      </div>
+      <Page variant={"main"}>
+        <NavBar />
+        <div style={{ textAlign: "center", marginTop: "50px" }}>Loading...</div>
+      </Page>
+    );
+  }
+
+  if (error || !cardData) {
+    return (
+      <Page variant={"main"}>
+        <NavBar />
+        <div
+          style={{
+            color: "red",
+            fontWeight: "bold",
+            textAlign: "center",
+            marginTop: "50px",
+          }}
+        >
+          {error || "No card data available. Please try again."}
+        </div>
+      </Page>
     );
   }
 
@@ -33,10 +72,10 @@ const CardReveal = () => {
         <NavBar />
 
         <MintedCard
-          src={fileName.toString()}
-          alt={cardName.toString()}
-          description={cardReadMain.toString()}
-          text={cardName.toString()}
+          src={cardData.image_url}
+          alt={cardData.card_name}
+          description={cardData.card_read_main}
+          text={cardData.card_name}
         />
       </Page>
     </>
