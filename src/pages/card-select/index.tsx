@@ -7,6 +7,7 @@ import { Button, useTheme, useDisclosure } from "@chakra-ui/react";
 import Page from "@/components/Page";
 import BeginModal from "@/components/Modal/BeginModal";
 import PrivyModal from "@/components/Modal/PrivyModal";
+import { getRandomCard } from "@/utils/cardUtils";
 // import Card from "../components/Card/Card";
 
 
@@ -69,28 +70,18 @@ export default function CardSelect() {
     setMintedCard(null);
   };
 
-  const handleMintClick = () => {
-    if (cards.length === 0) {
-      console.error("No cards available");
-      return;
+  const handleMintClick = async () => {
+    try {
+      // We'll implement the actual minting later
+      console.log("Minting process started");
+      const card = await getRandomCard('d8a4f60f-f3bf-44df-9218-7a10e4dfdf46');
+      console.log(card);
+      // For now, just navigate to the card-reveal page
+      router.push("/card-reveal");
+    } catch (error) {
+      console.error("Error in minting process:", error);
+      // Handle the error appropriately
     }
-    const randomIndex = Math.floor(Math.random() * cards.length);
-    const selectedImage = `/decks/riderwaithe/${cards[randomIndex].fileName}`;
-    const selectedText = cards[randomIndex].cardName;
-    const selectedCardDescription = cards[randomIndex].cardReadMain;
-    console.log("Minted card:", {
-      fileName: selectedImage,
-      cardName: selectedText,
-      cardReadMain: selectedCardDescription,
-    });
-    router.push({
-      pathname: "/card-reveal",
-      query: {
-        fileName: selectedImage,
-        cardName: selectedText,
-        cardReadMain: selectedCardDescription,
-      },
-    });
   };
 
   return (
