@@ -3,7 +3,6 @@ import Page from "@/components/Page";
 import { Box, Flex } from "@chakra-ui/react";
 import { colors } from "@/theme/foundations/colors";
 import Arch from "@/components/Arch";
-import DeckList from '@/components/Decklist';
 import { usePrivy } from '@privy-io/react-auth';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -46,7 +45,6 @@ export default function Home() {
       <Head>
         <title>NFTarot Homepage</title>
       </Head>
-      <DeckList />
       <Flex
         style={{
           border: "3px solid black",
