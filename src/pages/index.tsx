@@ -1,11 +1,46 @@
 import Head from "next/head";
 import Page from "@/components/Page";
-import { Box, Link, Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { colors } from "@/theme/foundations/colors";
 import Arch from "@/components/Arch";
 import DeckList from '@/components/Decklist';
+import { usePrivy } from '@privy-io/react-auth';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export default function Home() {
+  const { login, authenticated, ready } = usePrivy();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (ready && authenticated) {
+      router.push('/card-select');
+    }
+  }, [ready, authenticated, router]);
+
+  const handleEnter = async () => {
+    if (!ready) {
+      console.log('Privy is not ready yet');
+      return;
+    }
+    if (!authenticated) {
+      try {
+        console.log('Initiating login...');
+        await login();
+        // The useEffect hook will handle redirection after successful login
+      } catch (error) {
+        console.error("Failed to login:", error);
+      }
+    } else {
+      router.push('/card-select');
+    }
+  };
+
+  // If authenticated, don't render the homepage content
+  if (authenticated) {
+    return null; // or you could return a loading indicator
+  }
+
   return (
     <Page variant={"home"}>
       <Head>
@@ -23,6 +58,7 @@ export default function Home() {
         }}
       >
         <Box
+          onClick={handleEnter}
           style={{
             backgroundColor: colors.yellow,
             height: "100%",
@@ -32,18 +68,17 @@ export default function Home() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            cursor: 'pointer',
           }}
         >
           <Arch />
-          <Link
-            href="/card-select"
+          <Box
             style={{
-              textDecoration: "none",
               fontSize: "2rem",
             }}
           >
             ENTER
-          </Link>
+          </Box>
         </Box>
       </Flex>
     </Page>
