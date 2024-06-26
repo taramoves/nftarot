@@ -34,7 +34,7 @@ export default function Arch() {
   return (
     <ArchContainer>
       <Arch1 />
-      <Arch2 href="/card-select"/>
+      <Arch2 />
     </ArchContainer>
   );
 }
