@@ -21,16 +21,17 @@ const CardReveal = () => {
       setLoading(true);
       try {
         const deckId = "d8a4f60f-f3bf-44df-9218-7a10e4dfdf46"; // Your deck ID
+        console.log('Fetching card for deck:', deckId);
         const card = await getRandomCard(deckId);
-        console.log(card);
+        console.log('Fetched card:', card);
         if (card) {
           setCardData(card);
         } else {
           setError("Failed to fetch card data");
         }
       } catch (err) {
+        console.error('Error in fetchCard:', err);
         setError("An error occurred while fetching the card");
-        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -72,7 +73,7 @@ const CardReveal = () => {
         <NavBar />
 
         <MintedCard
-          src={cardData.image_url}
+          src={cardData.file_name}  // Changed from image_url to file_name
           alt={cardData.card_name}
           description={cardData.card_read_main}
           text={cardData.card_name}
