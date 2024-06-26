@@ -8,8 +8,11 @@ import Page from "@/components/Page";
 import BeginModal from "@/components/Modal/BeginModal";
 import PrivyModal from "@/components/Modal/PrivyModal";
 import { getRandomCard } from "@/utils/cardUtils";
+import usePrivyWalletClient from "@/hooks/usePrivyWalletClient";
+import { baseSepolia } from "viem/chains";
+import { usePrivy } from "@privy-io/react-auth";
+// import { zoraCreator1155ImplABI } from '@zoralabs/protocol-deployments';
 // import Card from "../components/Card/Card";
-
 
 interface CardState {
   fileName: string;
@@ -25,6 +28,9 @@ export default function CardSelect() {
   const [cards, setCards] = useState<any>([]);
   const [showBeginModal, setShowBeginModal] = useState(true);
   const [showPrivyModal, setShowPrivyModal] = useState<any>(false);
+
+  const { walletClient } = usePrivyWalletClient(baseSepolia.id);
+  const { ready, authenticated, login } = usePrivy();
 
   const router = useRouter();
   const theme = useTheme();
@@ -67,6 +73,15 @@ export default function CardSelect() {
   };
 
   const handleMintClick = async () => {
+    console.log("clicked", walletClient);
+    login();
+    // await walletClient.writeContract({
+    //   address: "0xB4a8b1B9183Fa50636a8578D81290e595A7Ed005",
+    //   abi: zoraCreator1155ImplABI,
+    //   functionName: "mintWithRewards",
+    //   args: [minter:'', internalType: '', type: ''],
+    //   account,
+    // });
     try {
       // We'll implement the actual minting later
       console.log("Minting process started");
