@@ -18,7 +18,6 @@ const CardReveal = () => {
 
   useEffect(() => {
     const fetchCard = async () => {
-      setLoading(true);
       try {
         const deckId = "d8a4f60f-f3bf-44df-9218-7a10e4dfdf46"; // Your deck ID
         console.log('Fetching card for deck:', deckId);
@@ -40,19 +39,12 @@ const CardReveal = () => {
     fetchCard();
   }, []);
 
-  if (loading) {
-    return (
-      <Page variant={"main"}>
-        <NavBar />
+  return (
+    <Page variant={"main"}>
+      <NavBar />
+      {loading ? (
         <div style={{ textAlign: "center", marginTop: "50px" }}>Loading...</div>
-      </Page>
-    );
-  }
-
-  if (error || !cardData) {
-    return (
-      <Page variant={"main"}>
-        <NavBar />
+      ) : error ? (
         <div
           style={{
             color: "red",
@@ -61,25 +53,21 @@ const CardReveal = () => {
             marginTop: "50px",
           }}
         >
-          {error || "No card data available. Please try again."}
+          {error}
         </div>
-      </Page>
-    );
-  }
-
-  return (
-    <>
-      <Page variant={"main"}>
-        <NavBar />
-
+      ) : cardData ? (
         <MintedCard
-          src={cardData.file_name}  // Changed from image_url to file_name
+          src={cardData.file_name}
           alt={cardData.card_name}
           description={cardData.card_read_main}
           text={cardData.card_name}
         />
-      </Page>
-    </>
+      ) : (
+        <div style={{ textAlign: "center", marginTop: "50px" }}>
+          No card data available. Please try again.
+        </div>
+      )}
+    </Page>
   );
 };
 
