@@ -30,10 +30,6 @@ export default function CardSelect() {
   const theme = useTheme();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // const openPrivyModal = () => {
-  //   setShowPrivyModal(true);
-  // };
-
   useEffect(() => {
     const fetchCards = async () => {
       try {
@@ -90,7 +86,6 @@ export default function CardSelect() {
         <title>Card Select</title>
       </Head>
       <Navbar />
-      <PrivyModal isOpen={showPrivyModal} onClose={()=> setShowPrivyModal(false)} />
       <div className={styles.main}>
         <div
           style={{
@@ -159,8 +154,7 @@ export default function CardSelect() {
           <BeginModal
             isOpen={showBeginModal}
             onClose={() => setShowBeginModal(false)}
-            onClick={()=> setShowPrivyModal(true)}
-          />
+            onClick={() => setShowBeginModal(false)}          />
         )}
         {/* need to reconstruct these conditions */}
       </div>
