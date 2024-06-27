@@ -6,9 +6,9 @@ const useConnectedWallet = () => {
   const { ready, authenticated, user } = usePrivy()
   const isLoggedByEmail = Boolean(user?.email?.address)
   const isAuthenticated = ready && authenticated
-  const privyWallet = wallets?.find((wallet) => wallet.walletClientType === "privy")
+  const privyWallet = wallets?.find((wallet) => wallet?.walletClientType === "privy")
   const externalWallets = useMemo(
-    () => wallets?.filter((wallet) => wallet.walletClientType !== "privy"),
+    () => wallets?.filter((wallet) => wallet?.walletClientType !== "privy"),
     [wallets],
   )
   const externalWallet = externalWallets?.length ? externalWallets[0] : null
