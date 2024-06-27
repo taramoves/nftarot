@@ -25,6 +25,7 @@ const CardReveal = () => {
         console.log('Fetching card with ID:', cardId);
         const card = await getCardById(cardId);
         console.log('Fetched card:', card);
+        console.log('Image URL:', card?.image_url);  // Add this line
         if (card) {
           setCardData(card);
         } else {
@@ -61,11 +62,11 @@ const CardReveal = () => {
         </div>
       ) : cardData ? (
         <MintedCard
-          src={cardData.file_name}
-          alt={cardData.card_name}
-          description={cardData.card_read_main}
-          text={cardData.card_name}
-        />
+        src={cardData.image_url}
+        alt={cardData.card_name}
+        description={cardData.card_read_main}
+        text={cardData.card_name}
+      />
       ) : (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
           No card data available. Please try again.
