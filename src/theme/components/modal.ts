@@ -16,7 +16,7 @@ export const Modal = helpers.defineMultiStyleConfig({
     header: {},
     overlay: {
       //   using deepPurple theme color in rgb
-      backgroundColor: "rgba(109, 42, 251, 0.25)",
+      backgroundColor: "rgba(109, 42, 251, 0.1)",
     },
     dialogContainer: {},
     dialog: {

@@ -53,7 +53,7 @@ function NavItem({ href, onClick, children }: { href?: string; onClick?: () => v
   );
 }
 
-export default function NavBar() {
+export default function NavBar(props: any) {
   const { logout, authenticated } = usePrivy();
   const router = useRouter();
 
@@ -67,7 +67,7 @@ export default function NavBar() {
   };
 
   return (
-    <Bar styles={{ width: "100%" }}>
+    <Bar styles={{ width: "100%" }} {...props}>
       <NavItem href="/">NFTarot</NavItem>
       <Flex>
         <NavItem href="/profile">profile</NavItem>
