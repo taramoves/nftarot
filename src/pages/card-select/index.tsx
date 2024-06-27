@@ -8,7 +8,13 @@ import Page from "@/components/Page";
 import BeginModal from "@/components/Modal/BeginModal";
 import { getRandomCard } from "@/utils/cardUtils";
 import { createReading, createOrUpdateUser } from "@/utils/dbUtils";
-import { usePrivy } from "@privy-io/react-auth";
+import { useConnectWallet, useLinkAccount, usePrivy } from "@privy-io/react-auth";
+import usePrivyWalletClient from "@/hooks/usePrivyWalletClient";
+import {baseSepolia} from "viem/chains";
+import { zoraCreator1155ImplABI } from '@zoralabs/protocol-deployments';
+import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
+import useConnectedWallet from "@/hooks/useConnectedWallet";
+
 
 interface CardState {
   fileName: string;
@@ -23,6 +29,8 @@ export default function CardSelect() {
   const [positions, setPositions] = useState<any[]>([]);
   const [showBeginModal, setShowBeginModal] = useState(true);
   const { authenticated, login, user } = usePrivy();
+  const {walletClient} = usePrivyWalletClient(baseSepolia); // Add this line
+  const {connectedWallet} = useConnectedWallet();
 
   const router = useRouter();
   const theme = useTheme();
@@ -57,39 +65,60 @@ export default function CardSelect() {
       login();
       return;
     }
-  
-    try {
-      console.log("Minting process started");
-      const deckId = 'd8a4f60f-f3bf-44df-9218-7a10e4dfdf46';
-      const card = await getRandomCard(deckId);
+    console.log("hi tara we;re here")
+    console.log("tara",walletClient)
+
+    const minter = '0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE' as Address
+    const tokenId = BigInt(1)
+    const quantity = BigInt(1)
+    const minterArguments = encodeAbiParameters(parseAbiParameters('address x, string y'), [
+      connectedWallet as Address,
+      'Based in Colombia 🇨🇴',
+    ]);    
+    const mintReferral = '0xD246C16EC3b555234630Ab83883aAAcdfd946ceF' as Address
+    const args = [minter, tokenId, quantity, minterArguments, mintReferral]
+    
+    await (walletClient as any).writeContract({
+      address: '0xB966B9EAeF0adc1d59DA58048b102190d1EB649F',
+      abi: zoraCreator1155ImplABI,
+      functionName: 'mintWithRewards',
+      account: connectedWallet as Address,
+      args: args as any,
+      value: '777000000000000'
+    } as any)
+
+    // try {
+    //   console.log("Minting process started");
+    //   const deckId = 'd8a4f60f-f3bf-44df-9218-7a10e4dfdf46';
+    //   const card = await getRandomCard(deckId);
       
-      if (!card) {
-        console.error("Failed to get a random card");
-        return;
-      }
+    //   if (!card) {
+    //     console.error("Failed to get a random card");
+    //     return;
+    //   }
   
-      console.log(card);
+    //   console.log(card);
   
-      // Create or update user in the database
-      if (user?.wallet?.address) {
-        await createOrUpdateUser(user.wallet.address);
+    //   // Create or update user in the database
+    //   if (user?.wallet?.address) {
+    //     await createOrUpdateUser(user.wallet.address);
         
-        // Create reading in the database
-        await createReading(user.wallet.address, card.card_id, deckId);
-      } else {
-        console.error("Wallet address not available");
-        return;
-      }
+    //     // Create reading in the database
+    //     await createReading(user.wallet.address, card.card_id, deckId);
+    //   } else {
+    //     console.error("Wallet address not available");
+    //     return;
+    //   }
   
-      // Navigate to the card-reveal page with card data
-      router.push({
-        pathname: "/card-reveal",
-        query: { cardId: card.card_id }
-      });
-    } catch (error) {
-      console.error("Error in minting process:", error);
-      // Handle the error appropriately
-    }
+    //   // Navigate to the card-reveal page with card data
+    //   router.push({
+    //     pathname: "/card-reveal",
+    //     query: { cardId: card.card_id }
+    //   });
+    // } catch (error) {
+    //   console.error("Error in minting process:", error);
+    //   // Handle the error appropriately
+    // }
   };
 
   return (
