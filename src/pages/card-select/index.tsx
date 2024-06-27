@@ -6,9 +6,9 @@ import Navbar from "@/components/NavBar";
 import { Button, useTheme, useDisclosure } from "@chakra-ui/react";
 import Page from "@/components/Page";
 import BeginModal from "@/components/Modal/BeginModal";
-import PrivyModal from "@/components/Modal/PrivyModal";
-// import Card from "../components/Card/Card";
-
+import { getRandomCard } from "@/utils/cardUtils";
+import { createReading, createOrUpdateUser } from "@/utils/dbUtils";
+import { usePrivy } from "@privy-io/react-auth";
 
 interface CardState {
   fileName: string;
@@ -18,35 +18,18 @@ interface CardState {
 }
 
 export default function CardSelect() {
-  const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [mintedCard, setMintedCard] = useState<CardState | null>(null);
-  const [positions, setPositions] = useState([]);
-  const [cards, setCards] = useState<any>([]);
+  const [positions, setPositions] = useState<any[]>([]);
   const [showBeginModal, setShowBeginModal] = useState(true);
-  const [showPrivyModal, setShowPrivyModal] = useState<any>(false);
+  const { authenticated, login, user } = usePrivy();
 
   const router = useRouter();
   const theme = useTheme();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  // const openPrivyModal = () => {
-  //   setShowPrivyModal(true);
-  // };
 
   useEffect(() => {
-    const fetchCards = async () => {
-      try {
-        const cardData = [] as any;
-        setCards(cardData);
-        console.log("Cards loaded:", cardData);
-      } catch (error) {
-        console.error("Error loading cards:", error);
-      }
-    };
-    fetchCards();
-
-    const numCards = 20; // Increase number of cards in the circle
-    const radius = 300; // Adjust radius as needed
+    const numCards = 20;
+    const radius = 300;
     const angleStep = (2 * Math.PI) / numCards;
     const newPositions = [];
 
@@ -57,10 +40,10 @@ export default function CardSelect() {
       newPositions.push({ x, y, angle });
     }
 
-    setPositions(newPositions as any);
+    setPositions(newPositions);
   }, []);
 
-  const handleCardClick = (cardIndex: any) => {
+  const handleCardClick = (cardIndex: number) => {
     setSelectedCard(cardIndex);
   };
 
@@ -69,28 +52,44 @@ export default function CardSelect() {
     setMintedCard(null);
   };
 
-  const handleMintClick = () => {
-    if (cards.length === 0) {
-      console.error("No cards available");
+  const handleMintClick = async () => {
+    if (!authenticated) {
+      login();
       return;
     }
-    const randomIndex = Math.floor(Math.random() * cards.length);
-    const selectedImage = `/decks/riderwaithe/${cards[randomIndex].fileName}`;
-    const selectedText = cards[randomIndex].cardName;
-    const selectedCardDescription = cards[randomIndex].cardReadMain;
-    console.log("Minted card:", {
-      fileName: selectedImage,
-      cardName: selectedText,
-      cardReadMain: selectedCardDescription,
-    });
-    router.push({
-      pathname: "/card-reveal",
-      query: {
-        fileName: selectedImage,
-        cardName: selectedText,
-        cardReadMain: selectedCardDescription,
-      },
-    });
+  
+    try {
+      console.log("Minting process started");
+      const deckId = 'd8a4f60f-f3bf-44df-9218-7a10e4dfdf46';
+      const card = await getRandomCard(deckId);
+      
+      if (!card) {
+        console.error("Failed to get a random card");
+        return;
+      }
+  
+      console.log(card);
+  
+      // Create or update user in the database
+      if (user?.wallet?.address) {
+        await createOrUpdateUser(user.wallet.address);
+        
+        // Create reading in the database
+        await createReading(user.wallet.address, card.card_id, deckId);
+      } else {
+        console.error("Wallet address not available");
+        return;
+      }
+  
+      // Navigate to the card-reveal page with card data
+      router.push({
+        pathname: "/card-reveal",
+        query: { cardId: card.card_id }
+      });
+    } catch (error) {
+      console.error("Error in minting process:", error);
+      // Handle the error appropriately
+    }
   };
 
   return (
@@ -99,7 +98,6 @@ export default function CardSelect() {
         <title>Card Select</title>
       </Head>
       <Navbar />
-      <PrivyModal isOpen={showPrivyModal} onClose={()=> setShowPrivyModal(false)} />
       <div className={styles.main}>
         <div
           style={{
@@ -119,7 +117,7 @@ export default function CardSelect() {
               : styles.cardDeck
           }
         >
-          {positions.map((pos: any, index: number) => (
+          {positions.map((pos, index) => (
             <img
               alt={"cards"}
               key={index}
@@ -168,10 +166,9 @@ export default function CardSelect() {
           <BeginModal
             isOpen={showBeginModal}
             onClose={() => setShowBeginModal(false)}
-            onClick={()=> setShowPrivyModal(true)}
+            onClick={() => setShowBeginModal(false)}
           />
         )}
-        {/* need to reconstruct these conditions */}
       </div>
     </Page>
   );

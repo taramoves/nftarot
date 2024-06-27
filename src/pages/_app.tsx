@@ -1,5 +1,6 @@
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
+import { PrivyProvider } from '@privy-io/react-auth';
 import { customTheme } from "@/theme";
 import { fonts } from "@/lib/fonts";
 
@@ -13,9 +14,20 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           }
         `}
       </style>
-      <ChakraProvider resetCSS theme={customTheme}>
-        <Component {...pageProps} />
-      </ChakraProvider>
+      <PrivyProvider
+        appId="clx70rx9j01ohqehtnicm2ku1"
+        config={{
+          loginMethods: ['wallet', 'email'],
+          appearance: {
+            theme: 'light',
+            accentColor: '#676FFF',
+          },
+        }}
+      >
+        <ChakraProvider resetCSS theme={customTheme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </PrivyProvider>
     </>
   );
 }
