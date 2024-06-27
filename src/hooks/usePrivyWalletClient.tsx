@@ -6,22 +6,22 @@ const usePrivyWalletClient = (chain: any) => {
   const { connectedWallet, wallet } = useConnectedWallet()
   const [walletClient, setWalletClient] = useState<WalletClient | null>(null)
 
-//   useEffect(() => {
-//     const init = async () => {
-//       const provider = await wallet?.getEthereumProvider()
-//       const response = createWalletClient({
-//         chain,
-//         account: connectedWallet as `0x${string}`,
-//         transport: custom(provider),
-//       })
-//       setWalletClient(response)
-//     }
+  useEffect(() => {
+    const init = async () => {
+      const provider = await wallet?.getEthereumProvider()
+      const response = createWalletClient({
+        chain,
+        account: connectedWallet as `0x${string}`,
+        transport: custom(provider),
+      })
+      setWalletClient(response)
+    }
 
-//     if (!connectedWallet || !chain) return
-//     init()
-//   }, [connectedWallet, chain])
+    if (!connectedWallet || !chain) return
+    init()
+  }, [connectedWallet, chain])
 
-//   return { walletClient }
+  return { walletClient }
 }
 
 export default usePrivyWalletClient
