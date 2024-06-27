@@ -26,6 +26,7 @@ export default function MintedCard({
   description,
   ...props
 }: Props) {
+  console.log('MintedCard src:', src);  // Add this line
   const router = useRouter();
 
   return (

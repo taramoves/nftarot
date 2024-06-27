@@ -18,6 +18,7 @@ export default function SingleCard({
   onClick,
   ...props
 }: Props) {
+  console.log('SingleCard src:', src);  // Add this line
   return (
     <div style={{ zIndex: 2 }}>
       <Image
