@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { getRandomCard } from '../utils/cardUtils';
-import { supabase } from '../utils/supabaseClient'; // Assume you have this set up
+import { supabase } from '../utils/supabase'; // Assume you have this set up
 import { v4 as uuidv4 } from 'uuid'; // For generating unique IDs
 
 interface MintButtonProps {
