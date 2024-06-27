@@ -8,20 +8,22 @@ import Page from "@/components/Page";
 import TextContainer from "@/components/TextContainer";
 import MintedCard from "@/components/Card/MintedCard";
 import { useEffect, useState } from "react";
-import { getRandomCard, Card as CardType } from "@/utils/cardUtils";
+import { getCardById, Card as CardType } from "@/utils/cardUtils";
 
 const CardReveal = () => {
   const router = useRouter();
+  const { cardId } = router.query;
   const [cardData, setCardData] = useState<CardType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  
   useEffect(() => {
     const fetchCard = async () => {
+      if (typeof cardId !== 'string') return;
+      
       try {
-        const deckId = "d8a4f60f-f3bf-44df-9218-7a10e4dfdf46"; // Your deck ID
-        console.log('Fetching card for deck:', deckId);
-        const card = await getRandomCard(deckId);
+        console.log('Fetching card with ID:', cardId);
+        const card = await getCardById(cardId);
         console.log('Fetched card:', card);
         if (card) {
           setCardData(card);
@@ -36,8 +38,10 @@ const CardReveal = () => {
       }
     };
 
-    fetchCard();
-  }, []);
+    if (cardId) {
+      fetchCard();
+    }
+  }, [cardId]);
 
   return (
     <Page variant={"main"}>
