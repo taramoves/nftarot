@@ -9,6 +9,12 @@ const usePrivyWalletClient = (chain: any) => {
   useEffect(() => {
     const init = async () => {
       const provider = await wallet?.getEthereumProvider()
+
+        // Add this check
+      if (!provider) {
+        console.log("Provider is undefined")
+        return
+      }
       const response = createWalletClient({
         chain,
         account: connectedWallet as `0x${string}`,
