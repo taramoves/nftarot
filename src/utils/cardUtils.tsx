@@ -10,7 +10,6 @@ export interface Card {
 
 export async function getRandomCard(deckId: string): Promise<Card | null> {
   try {
-    // Fetch all cards for the given deck
     const { data, error } = await supabase
       .from('cards')
       .select('card_id, deck_id, card_name, file_name, card_read_main')
@@ -26,10 +25,7 @@ export async function getRandomCard(deckId: string): Promise<Card | null> {
       return null;
     }
 
-    // Generate a random index
     const randomIndex = Math.floor(Math.random() * data.length);
-
-    // Select the random card
     const randomCard = data[randomIndex];
 
     console.log('Fetched random card:', randomCard);
@@ -37,6 +33,26 @@ export async function getRandomCard(deckId: string): Promise<Card | null> {
     return randomCard;
   } catch (error) {
     console.error('Error in getRandomCard:', error);
+    return null;
+  }
+}
+
+export async function getCardById(cardId: string): Promise<Card | null> {
+  try {
+    const { data, error } = await supabase
+      .from('cards')
+      .select('card_id, deck_id, card_name, file_name, card_read_main')
+      .eq('card_id', cardId)
+      .single();
+
+    if (error) {
+      console.error('Error fetching card by ID:', error);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error in getCardById:', error);
     return null;
   }
 }
