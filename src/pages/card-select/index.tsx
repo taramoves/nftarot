@@ -72,9 +72,13 @@ export default function CardSelect() {
     try {
       console.log("Starting minting process");
       console.log("Wallet client:", walletClient);
+
+      // Generate a random index between 0 and 155
+      const randomIndex = generateRandomIndex();
+      console.log("Generated random index:", randomIndex);
   
       const minter = '0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE' as Address;
-      const tokenId = BigInt(3);
+      const tokenId = BigInt(randomIndex);
       const quantity = BigInt(1);
       const minterArguments = encodeAbiParameters(parseAbiParameters('address x, string y'), [
         connectedWallet as Address,
@@ -97,9 +101,6 @@ export default function CardSelect() {
       // Fetch card data from Supabase
       const deckId = 'd8a4f60f-f3bf-44df-9218-7a10e4dfdf46';
       
-      // Generate a random index between 0 and 155
-      const randomIndex = generateRandomIndex();
-      console.log("Generated random index:", randomIndex);
   
       // Get the card at the generated index
       const card = await getCardByIndex(deckId, randomIndex);
