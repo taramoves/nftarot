@@ -10,7 +10,7 @@ import MintedCard from "@/components/Card/MintedCard";
 import { useEffect, useState } from "react";
 import { getCardById, Card as CardType } from "@/utils/cardUtils";
 
-const CardReveal = () => {
+export default function CardReveal(){
   const router = useRouter();
   const { cardId } = router.query;
   const [cardData, setCardData] = useState<CardType | null>(null);
@@ -75,5 +75,3 @@ const CardReveal = () => {
     </Page>
   );
 };
-
-export default CardReveal;
