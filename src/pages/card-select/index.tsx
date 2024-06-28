@@ -6,7 +6,7 @@ import Navbar from "@/components/NavBar";
 import { Button, useTheme, Spinner, useToast, useDisclosure, Toast } from "@chakra-ui/react";
 import Page from "@/components/Page";
 import BeginModal from "@/components/Modal/BeginModal";
-import { getRandomCard } from "@/utils/cardUtils";
+import { getCardByIndex, generateRandomIndex } from "@/utils/cardUtils";
 import { createReading, createOrUpdateUser } from "@/utils/dbUtils";
 import { useConnectWallet, useLinkAccount, usePrivy } from "@privy-io/react-auth";
 import usePrivyWalletClient from "@/hooks/usePrivyWalletClient";
@@ -74,7 +74,7 @@ export default function CardSelect() {
       console.log("Wallet client:", walletClient);
   
       const minter = '0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE' as Address;
-      const tokenId = BigInt(1);
+      const tokenId = BigInt(3);
       const quantity = BigInt(1);
       const minterArguments = encodeAbiParameters(parseAbiParameters('address x, string y'), [
         connectedWallet as Address,
@@ -84,7 +84,7 @@ export default function CardSelect() {
       const args = [minter, tokenId, quantity, minterArguments, mintReferral];
     
       await (walletClient as any).writeContract({
-        address: '0xB966B9EAeF0adc1d59DA58048b102190d1EB649F',
+        address: '0xfA29427dA5A14D81933B0E32BE2aD10dC679FA88',
         abi: zoraCreator1155ImplABI,
         functionName: 'mintWithRewards',
         account: connectedWallet as Address,
@@ -96,10 +96,16 @@ export default function CardSelect() {
       
       // Fetch card data from Supabase
       const deckId = 'd8a4f60f-f3bf-44df-9218-7a10e4dfdf46';
-      const card = await getRandomCard(deckId);
+      
+      // Generate a random index between 0 and 155
+      const randomIndex = generateRandomIndex();
+      console.log("Generated random index:", randomIndex);
+  
+      // Get the card at the generated index
+      const card = await getCardByIndex(deckId, randomIndex);
       
       if (!card) {
-        throw new Error("Failed to get a random card");
+        throw new Error("Failed to get a card at the generated index");
       }
   
       console.log("Fetched card:", card);
@@ -114,7 +120,7 @@ export default function CardSelect() {
         // Navigate to the card-reveal page with card data
         router.push({
           pathname: "/card-reveal",
-          query: { cardId: card.card_id.toString() }
+          query: { cardId: randomIndex.toString() }
         });
       } else {
         throw new Error("Wallet address not available");
