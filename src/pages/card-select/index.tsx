@@ -1,9 +1,9 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import styles from "../../styles/CardSelect.module.css";
-import { useState, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Navbar from "@/components/NavBar";
-import { Button, useTheme, useDisclosure } from "@chakra-ui/react";
+import { Button, useTheme, Spinner, useToast, useDisclosure, Toast } from "@chakra-ui/react";
 import Page from "@/components/Page";
 import BeginModal from "@/components/Modal/BeginModal";
 import { getRandomCard } from "@/utils/cardUtils";
@@ -12,7 +12,7 @@ import { useConnectWallet, useLinkAccount, usePrivy } from "@privy-io/react-auth
 import usePrivyWalletClient from "@/hooks/usePrivyWalletClient";
 import {baseSepolia} from "viem/chains";
 import { zoraCreator1155ImplABI } from '@zoralabs/protocol-deployments';
-import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
+import { Address, encodeAbiParameters, parseAbiParameters, parseEther } from "viem";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
 
 
@@ -25,6 +25,7 @@ interface CardState {
 
 export default function CardSelect() {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const [isMinting, setIsMinting] = useState(false);
   const [mintedCard, setMintedCard] = useState<CardState | null>(null);
   const [positions, setPositions] = useState<any[]>([]);
   const [showBeginModal, setShowBeginModal] = useState(true);
@@ -65,60 +66,79 @@ export default function CardSelect() {
       login();
       return;
     }
-    console.log("hi tara we;re here")
-    console.log("tara",walletClient)
-
-    const minter = '0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE' as Address
-    const tokenId = BigInt(1)
-    const quantity = BigInt(1)
-    const minterArguments = encodeAbiParameters(parseAbiParameters('address x, string y'), [
-      connectedWallet as Address,
-      'Based in Colombia 🇨🇴',
-    ]);    
-    const mintReferral = '0xD246C16EC3b555234630Ab83883aAAcdfd946ceF' as Address
-    const args = [minter, tokenId, quantity, minterArguments, mintReferral]
+  
+    setIsMinting(true);
+  
+    try {
+      console.log("Starting minting process");
+      console.log("Wallet client:", walletClient);
+  
+      const minter = '0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE' as Address;
+      const tokenId = BigInt(1);
+      const quantity = BigInt(1);
+      const minterArguments = encodeAbiParameters(parseAbiParameters('address x, string y'), [
+        connectedWallet as Address,
+        'Based in Colombia 🇨🇴',
+      ]);    
+      const mintReferral = '0xD246C16EC3b555234630Ab83883aAAcdfd946ceF' as Address;
+      const args = [minter, tokenId, quantity, minterArguments, mintReferral];
     
-    await (walletClient as any).writeContract({
-      address: '0xB966B9EAeF0adc1d59DA58048b102190d1EB649F',
-      abi: zoraCreator1155ImplABI,
-      functionName: 'mintWithRewards',
-      account: connectedWallet as Address,
-      args: args as any,
-      value: '777000000000000'
-    } as any)
-
-    // try {
-    //   console.log("Minting process started");
-    //   const deckId = 'd8a4f60f-f3bf-44df-9218-7a10e4dfdf46';
-    //   const card = await getRandomCard(deckId);
+      await (walletClient as any).writeContract({
+        address: '0xB966B9EAeF0adc1d59DA58048b102190d1EB649F',
+        abi: zoraCreator1155ImplABI,
+        functionName: 'mintWithRewards',
+        account: connectedWallet as Address,
+        args: args as any,
+        value: '777000000000000'
+      } as any);
+  
+      console.log("Minting process completed");
       
-    //   if (!card) {
-    //     console.error("Failed to get a random card");
-    //     return;
-    //   }
+      // Fetch card data from Supabase
+      const deckId = 'd8a4f60f-f3bf-44df-9218-7a10e4dfdf46';
+      const card = await getRandomCard(deckId);
+      
+      if (!card) {
+        throw new Error("Failed to get a random card");
+      }
   
-    //   console.log(card);
+      console.log("Fetched card:", card);
   
-    //   // Create or update user in the database
-    //   if (user?.wallet?.address) {
-    //     await createOrUpdateUser(user.wallet.address);
+      // Create or update user in the database
+      if (user?.wallet?.address) {
+        await createOrUpdateUser(user.wallet.address);
         
-    //     // Create reading in the database
-    //     await createReading(user.wallet.address, card.card_id, deckId);
-    //   } else {
-    //     console.error("Wallet address not available");
-    //     return;
-    //   }
+        // Create reading in the database
+        await createReading(user.wallet.address, card.card_id, deckId);
   
-    //   // Navigate to the card-reveal page with card data
-    //   router.push({
-    //     pathname: "/card-reveal",
-    //     query: { cardId: card.card_id }
-    //   });
-    // } catch (error) {
-    //   console.error("Error in minting process:", error);
-    //   // Handle the error appropriately
-    // }
+        // Navigate to the card-reveal page with card data
+        router.push({
+          pathname: "/card-reveal",
+          query: { cardId: card.card_id.toString() }
+        });
+      } else {
+        throw new Error("Wallet address not available");
+      }
+  
+      Toast({
+        title: "Minting Successful",
+        description: "Your card has been minted successfully!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error("Error in minting process:", error);
+      Toast({
+        title: "Minting Failed",
+        description: "There was an error while minting your card. Please try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsMinting(false);
+    }
   };
 
   return (
@@ -177,20 +197,26 @@ export default function CardSelect() {
           </div>
         ) : selectedCard !== null ? (
           <div className={styles.selectedCardContainer}>
-            <img
-              alt={"card sample"}
-              src="/Card_Sample.svg"
-              className={styles.mintedCard}
-            />
-            <div className={styles.buttons}>
-              <Button variant={"primaryButton"} onClick={handleMintClick}>
-                Mint
-              </Button>
-              <Button variant={"primaryButton"} onClick={resetSelection}>
-                X
-              </Button>
-            </div>
-          </div>
+  <img
+    alt={"card sample"}
+    src="/Card_Sample.svg"
+    className={styles.mintedCard}
+  />
+  <div className={styles.buttons}>
+    <Button 
+      variant={"primaryButton"} 
+      onClick={handleMintClick}
+      // Add these props
+      isLoading={isMinting}
+      loadingText="Minting"
+    >
+      {isMinting ? <Spinner /> : "Mint"}
+    </Button>
+    <Button variant={"primaryButton"} onClick={resetSelection}>
+      X
+    </Button>
+  </div>
+</div>
         ) : (
           <BeginModal
             isOpen={showBeginModal}
