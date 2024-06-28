@@ -14,59 +14,65 @@ function constructFullImageUrl(partialUrl: string): string {
   return `${SUPABASE_URL}/storage/v1/object/public/${partialUrl}`;
 }
 
-export async function getRandomCard(deckId: string): Promise<Card | null> {
+export async function getCardByIndex(deckId: string, index: number): Promise<Card | null> {
   try {
     const { data, error } = await supabase
       .from('cards')
       .select('card_id, deck_id, card_name, image_url, card_read_main')
-      .eq('deck_id', deckId);
-
-    if (error) {
-      console.error('Error fetching cards:', error);
-      return null;
-    }
-
-    if (!data || data.length === 0) {
-      console.error('No cards found for the deck');
-      return null;
-    }
-
-    const randomIndex = Math.floor(Math.random() * data.length);
-    const randomCard = data[randomIndex];
-
-    // Construct the full image URL
-    randomCard.image_url = constructFullImageUrl(randomCard.image_url);
-
-    console.log('Fetched random card:', randomCard);
-
-    return randomCard;
-  } catch (error) {
-    console.error('Error in getRandomCard:', error);
-    return null;
-  }
-}
-
-export async function getCardById(cardId: string): Promise<Card | null> {
-  try {
-    const { data, error } = await supabase
-      .from('cards')
-      .select('card_id, deck_id, card_name, image_url, card_read_main')
-      .eq('card_id', cardId)
+      .eq('deck_id', deckId)
+      .eq('index', index)
       .single();
 
     if (error) {
-      console.error('Error fetching card by ID:', error);
+      console.error('Error fetching card:', error);
       return null;
     }
 
-    if (data) {
-      // Construct the full image URL
-      data.image_url = constructFullImageUrl(data.image_url);
+    if (!data) {
+      console.error('No card found at the specified index');
+      return null;
     }
+
+    // Construct the full image URL
+    data.image_url = constructFullImageUrl(data.image_url);
+
+    console.log('Fetched card:', data);
 
     return data;
   } catch (error) {
-    console.error('Error in getCardById:', error);
+    console.error('Error in getCardByIndex:', error);
     return null;
   }
 }
+
+export function generateRandomIndex(): number {
+  const minIndex = 0;
+  const maxIndex = 155;
+  return Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
+}
+
+// Add this function back
+// export async function getCardById(cardId: string): Promise<Card | null> {
+//   try {
+//     const { data, error } = await supabase
+//       .from('cards')
+//       .select('card_id, deck_id, card_name, image_url, card_read_main')
+//       .eq('card_id', cardId)
+//       .single();
+
+//     if (error) {
+//       console.error('Error fetching card by ID:', error);
+//       return null;
+//     }
+
+//     if (data) {
+//       // Construct the full image URL
+//       data.image_url = constructFullImageUrl(data.image_url);
+//     }
+
+//     return data;
+//   } catch (error) {
+//     console.error('Error in getCardById:', error);
+//     return null;
+//   }
+// }

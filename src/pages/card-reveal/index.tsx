@@ -8,7 +8,7 @@ import Page from "@/components/Page";
 import TextContainer from "@/components/TextContainer";
 import MintedCard from "@/components/Card/MintedCard";
 import { useEffect, useState } from "react";
-import { getCardById, Card as CardType } from "@/utils/cardUtils";
+import { getCardByIndex, Card as CardType } from "@/utils/cardUtils";
 
 const CardReveal = () => {
   const router = useRouter();
@@ -19,16 +19,31 @@ const CardReveal = () => {
   
   useEffect(() => {
     const fetchCard = async () => {
-      if (typeof cardId !== 'string') return;
+      if (typeof cardId !== 'string') {
+        console.error('cardId is not a string:', cardId);
+        setError("Invalid card ID");
+        setLoading(false);
+        return;
+      }
       
       try {
         console.log('Fetching card with ID:', cardId);
-        const card = await getCardById(cardId);
+        // Assuming cardId is now the index
+        const index = parseInt(cardId, 10);
+        if (isNaN(index)) {
+          console.error('cardId is not a valid number:', cardId);
+          setError("Invalid card index");
+          return;
+        }
+        // You might need to adjust this if you need to specify a deck ID
+        const deckId = 'd8a4f60f-f3bf-44df-9218-7a10e4dfdf46'; // Replace with actual deck ID if needed
+        const card = await getCardByIndex(deckId, index);
         console.log('Fetched card:', card);
-        console.log('Image URL:', card?.image_url);  // Add this line
         if (card) {
           setCardData(card);
+          console.log('Image URL:', card.image_url);
         } else {
+          console.error('No card found for index:', index);
           setError("Failed to fetch card data");
         }
       } catch (err) {
@@ -62,11 +77,11 @@ const CardReveal = () => {
         </div>
       ) : cardData ? (
         <MintedCard
-        src={cardData.image_url}
-        alt={cardData.card_name}
-        description={cardData.card_read_main}
-        text={cardData.card_name}
-      />
+          src={cardData.image_url}
+          alt={cardData.card_name}
+          description={cardData.card_read_main}
+          text={cardData.card_name}
+        />
       ) : (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
           No card data available. Please try again.
