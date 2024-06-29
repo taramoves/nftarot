@@ -1,16 +1,12 @@
 import { useRouter } from "next/router";
-import styles from "../../styles/CardReveal.module.css";
 import NavBar from "@/components/NavBar";
-import { Button, IconButton } from "@chakra-ui/react";
-import Card from "@/components/Card/SingleCard";
-import { FaShare } from "react-icons/fa";
 import Page from "@/components/Page";
-import TextContainer from "@/components/TextContainer";
 import MintedCard from "@/components/Card/MintedCard";
 import { useEffect, useState } from "react";
-import { getCardByIndex, Card as CardType } from "@/utils/cardUtils";
+import { Card as CardType } from "@/utils/cardUtils";
+import { fetchCardData } from "@/utils/cardReavealUtils";
 
-export default function CardReveal(){
+export default function CardReveal() {
   const router = useRouter();
   const { cardId } = router.query;
   const [cardData, setCardData] = useState<CardType | null>(null);
@@ -18,44 +14,26 @@ export default function CardReveal(){
   const [error, setError] = useState<string | null>(null);
   
   useEffect(() => {
-    const fetchCard = async () => {
+    const getCard = async () => {
       if (typeof cardId !== 'string') {
-        console.error('cardId is not a string:', cardId);
         setError("Invalid card ID");
         setLoading(false);
         return;
       }
+
+      const { cardData: fetchedCard, error: fetchError } = await fetchCardData(cardId);
       
-      try {
-        console.log('Fetching card with ID:', cardId);
-        // Assuming cardId is now the index
-        const index = parseInt(cardId, 10);
-        if (isNaN(index)) {
-          console.error('cardId is not a valid number:', cardId);
-          setError("Invalid card index");
-          return;
-        }
-        // You might need to adjust this if you need to specify a deck ID
-        const deckId = 'd8a4f60f-f3bf-44df-9218-7a10e4dfdf46'; // Replace with actual deck ID if needed
-        const card = await getCardByIndex(deckId, index);
-        console.log('Fetched card:', card);
-        if (card) {
-          setCardData(card);
-          console.log('Image URL:', card.image_url);
-        } else {
-          console.error('No card found for index:', index);
-          setError("Failed to fetch card data");
-        }
-      } catch (err) {
-        console.error('Error in fetchCard:', err);
-        setError("An error occurred while fetching the card");
-      } finally {
-        setLoading(false);
+      if (fetchError) {
+        setError(fetchError);
+      } else if (fetchedCard) {
+        setCardData(fetchedCard);
       }
+
+      setLoading(false);
     };
 
     if (cardId) {
-      fetchCard();
+      getCard();
     }
   }, [cardId]);
 
@@ -89,4 +67,4 @@ export default function CardReveal(){
       )}
     </Page>
   );
-};
+}
