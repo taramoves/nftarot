@@ -5,6 +5,7 @@ import { Flex, Button } from "@chakra-ui/react";
 import TextContainer from "@/components/TextContainer";
 import { usePrivy } from '@privy-io/react-auth';
 import { useEffect, useState } from 'react';
+import PastReadings from "@/components/Card/PastReadings";
 
 export default function Profile() {
   const router = useRouter();
@@ -39,6 +40,8 @@ export default function Profile() {
             Wallet Address: {walletAddress}
           </TextContainer>
         )}
+        {/* temporary placement just to see component/test */}
+        <PastReadings walletAddress={walletAddress}/>
         <TextContainer variant={"title"} size="xxl">Past Readings</TextContainer>
         <TextContainer variant={"description"}>You have not yet pulled a tarot card.</TextContainer>
         <Button variant={"primaryButton"} onClick={() => router.push("/card-select")} size="lg">Begin your first reading</Button>
