@@ -58,46 +58,31 @@ export interface Reading {
   id: string;
   created_at: string;
 }
-
-export interface WalletReadings {
-  wallet_address: string;
-  readings: Reading[];
-}
 interface DatabaseReading {
   wallet_address: string;
   reading_ids: string[];
   created_at_times: string[];
 }
 
-export async function fetchPastReadings(
-  walletAddress: string
-): Promise<WalletReadings> {
+export async function fetchPastReadings(walletAddress: string): Promise<Reading[]> {
   try {
-    const { data, error } = await supabase.rpc("get_reading_group", {
-      wallet_addr: walletAddress,
+    const { data, error } = await supabase.rpc('get_reading_group', {
+      wallet_addr: walletAddress
     });
 
     if (error) throw error;
 
     if (data && data.length > 0) {
       const result = data[0] as DatabaseReading;
-      const readings = result.reading_ids.map((id, index) => ({
+      return result.reading_ids.map((id, index) => ({
         id,
-        created_at: result.created_at_times[index],
+        created_at: result.created_at_times[index]
       }));
-
-      return {
-        wallet_address: result.wallet_address,
-        readings,
-      };
     }
 
-    return {
-      wallet_address: walletAddress,
-      readings: [],
-    };
+    return [];
   } catch (error) {
-    console.error("Error fetching reading group:", error);
+    console.error('Error fetching reading group:', error);
     throw error;
   }
 }
