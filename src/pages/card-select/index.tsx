@@ -1,20 +1,20 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import styles from "../../styles/CardSelect.module.css";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/NavBar";
-import { Button, useTheme, Spinner, useToast, useDisclosure, Toast } from "@chakra-ui/react";
+import { Button, useTheme, Spinner, useToast, Box } from "@chakra-ui/react";
 import Page from "@/components/Page";
 import BeginModal from "@/components/Modal/BeginModal";
 import { getCardByIndex, generateRandomIndex } from "@/utils/cardUtils";
 import { createReading, createOrUpdateUser } from "@/utils/dbUtils";
-import { useConnectWallet, useLinkAccount, usePrivy } from "@privy-io/react-auth";
+import { usePrivy } from "@privy-io/react-auth";
 import usePrivyWalletClient from "@/hooks/usePrivyWalletClient";
-import {baseSepolia} from "viem/chains";
+import { baseSepolia } from "viem/chains";
 import { zoraCreator1155ImplABI } from '@zoralabs/protocol-deployments';
-import { Address, encodeAbiParameters, parseAbiParameters, parseEther } from "viem";
+import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
-
+import useNetworkCheck from '@/hooks/useNetworkCheck'; // New import
 
 interface CardState {
   fileName: string;
@@ -30,11 +30,13 @@ export default function CardSelect() {
   const [positions, setPositions] = useState<any[]>([]);
   const [showBeginModal, setShowBeginModal] = useState(true);
   const { authenticated, login, user } = usePrivy();
-  const {walletClient} = usePrivyWalletClient(baseSepolia); // Add this line
-  const {connectedWallet} = useConnectedWallet();
+  const { walletClient } = usePrivyWalletClient(baseSepolia);
+  const { connectedWallet } = useConnectedWallet();
+  const { isCorrectNetwork } = useNetworkCheck(); // New hook usage
 
   const router = useRouter();
   const theme = useTheme();
+  const toast = useToast();
 
   useEffect(() => {
     const numCards = 20;
@@ -66,17 +68,27 @@ export default function CardSelect() {
       login();
       return;
     }
-  
+
+    if (!isCorrectNetwork) {
+      toast({
+        title: "Wrong Network",
+        description: "Please switch to the correct network before minting.",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
     setIsMinting(true);
-  
+
     try {
       console.log("Starting minting process");
       console.log("Wallet client:", walletClient);
 
-      // Generate a random index between 0 and 155
       const randomIndex = generateRandomIndex();
       console.log("Generated random index:", randomIndex);
-  
+
       const minter = '0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE' as Address;
       const tokenId = BigInt(randomIndex);
       const quantity = BigInt(1);
@@ -95,30 +107,23 @@ export default function CardSelect() {
         args: args as any,
         value: '777000000000000'
       } as any);
-  
+
       console.log("Minting process completed");
       
-      // Fetch card data from Supabase
       const deckId = 'd8a4f60f-f3bf-44df-9218-7a10e4dfdf46';
       
-  
-      // Get the card at the generated index
       const card = await getCardByIndex(deckId, randomIndex);
       
       if (!card) {
         throw new Error("Failed to get a card at the generated index");
       }
-  
+
       console.log("Fetched card:", card);
-  
-      // Create or update user in the database
+
       if (user?.wallet?.address) {
         await createOrUpdateUser(user.wallet.address);
-        
-        // Create reading in the database
         await createReading(user.wallet.address, card.card_id, deckId);
-  
-        // Navigate to the card-reveal page with card data
+
         router.push({
           pathname: "/card-reveal",
           query: { cardId: randomIndex.toString() }
@@ -126,8 +131,8 @@ export default function CardSelect() {
       } else {
         throw new Error("Wallet address not available");
       }
-  
-      Toast({
+
+      toast({
         title: "Minting Successful",
         description: "Your card has been minted successfully!",
         status: "success",
@@ -136,7 +141,7 @@ export default function CardSelect() {
       });
     } catch (error) {
       console.error("Error in minting process:", error);
-      Toast({
+      toast({
         title: "Minting Failed",
         description: "There was an error while minting your card. Please try again.",
         status: "error",
@@ -204,26 +209,31 @@ export default function CardSelect() {
           </div>
         ) : selectedCard !== null ? (
           <div className={styles.selectedCardContainer}>
-  <img
-    alt={"card sample"}
-    src="/Card_Sample.svg"
-    className={styles.mintedCard}
-  />
-  <div className={styles.buttons}>
-    <Button 
-      variant={"primaryButton"} 
-      onClick={handleMintClick}
-      // Add these props
-      isLoading={isMinting}
-      loadingText="Minting"
-    >
-      {isMinting ? <Spinner /> : "Mint"}
-    </Button>
-    <Button variant={"primaryButton"} onClick={resetSelection}>
-      X
-    </Button>
-  </div>
-</div>
+            <img
+              alt={"card sample"}
+              src="/Card_Sample.svg"
+              className={styles.mintedCard}
+            />
+            <div className={styles.buttons}>
+              {!isCorrectNetwork && (
+                <Box color="red.500" mb={2}>
+                  Please switch to the correct network to mint.
+                </Box>
+              )}
+              <Button 
+                variant={"primaryButton"} 
+                onClick={handleMintClick}
+                isLoading={isMinting}
+                loadingText="Minting"
+                isDisabled={!isCorrectNetwork}
+              >
+                {isMinting ? <Spinner /> : "Mint"}
+              </Button>
+              <Button variant={"primaryButton"} onClick={resetSelection}>
+                X
+              </Button>
+            </div>
+          </div>
         ) : (
           <BeginModal
             isOpen={showBeginModal}
