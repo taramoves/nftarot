@@ -1,10 +1,11 @@
 import styles from "../../styles/CardSelect.module.css";
-import Image, { StaticImageData } from "next/image";
+import { StaticImageData } from "next/image";
+import { Image } from "@chakra-ui/react";
 
 interface Props {
   className?: string;
   alt: string;
-  src: string | StaticImageData;
+  src: string;
   width?: number;
   height?: number;
   style?: any;
@@ -18,7 +19,7 @@ export default function SingleCard({
   onClick,
   ...props
 }: Props) {
-  console.log('SingleCard src:', src);  // Add this line
+  console.log("SingleCard src:", src); // Add this line
   return (
     <div style={{ zIndex: 2 }}>
       <Image
@@ -26,8 +27,6 @@ export default function SingleCard({
         alt={alt}
         className={styles.card}
         style={{
-          width: "100%",
-          height: "auto",
           borderRadius: "2.2rem",
           border: "3px solid black",
         }}

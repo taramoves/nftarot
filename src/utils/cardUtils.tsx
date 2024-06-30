@@ -10,13 +10,13 @@ export interface Card {
   card_read_main: string;
 }
 
-function constructFullImageUrl(partialUrl: string): string {
+export function constructFullImageUrl(partialUrl: string): string {
   return `${SUPABASE_URL}/storage/v1/object/public/${partialUrl}`;
 }
 
 export async function getCardByIndex(
   deckId: string,
-  index: number
+  index: number,
 ): Promise<Card | null> {
   try {
     const { data, error } = await supabase
@@ -41,9 +41,19 @@ export async function getCardByIndex(
 
     console.log("Fetched card:", data);
 
-    return data;
+    if (data) {
+      return {
+        card_id: data.card_id,
+        deck_id: data.deck_id,
+        image_url: data.image_url,
+        card_name: data.card_name,
+        card_read_main: data.card_read_main
+      };
+    }
+
+    return null;
   } catch (error) {
-    console.error("Error in getCardByIndex:", error);
+    console.error('Error fetching card:', error);
     return null;
   }
 }
@@ -57,10 +67,18 @@ export function generateRandomIndex(): number {
 export interface Reading {
   id: string;
   created_at: string;
+  deck_id: string;
+  card_id: string;
+  image_url: string;
+  cardIndex: number;
 }
 interface DatabaseReading {
   wallet_address: string;
+  deck_ids: string[];
+  card_ids: string[];
   reading_ids: string[];
+  image_urls: string[];
+  indexes: number[],
   created_at_times: string[];
 }
 
@@ -74,9 +92,14 @@ export async function fetchPastReadings(walletAddress: string): Promise<Reading[
 
     if (data && data.length > 0) {
       const result = data[0] as DatabaseReading;
+      console.log(result);
       return result.reading_ids.map((id, index) => ({
         id,
-        created_at: result.created_at_times[index]
+        created_at: result.created_at_times[index],
+        deck_id: result.deck_ids[index],
+        card_id: result.card_ids[index],
+        image_url: result.image_urls,
+        cardIndex: result.indexes,
       }));
     }
 
