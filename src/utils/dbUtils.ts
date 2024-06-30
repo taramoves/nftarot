@@ -1,6 +1,9 @@
 import { supabase } from './supabase';
 import { v4 as uuidv4 } from 'uuid';
 
+// In dbUtils.ts
+// dbUtils.ts
+
 export async function createReading(
   walletAddress: string,
   cardId: string,
@@ -9,15 +12,16 @@ export async function createReading(
   index: number
 ) {
   try {
+    const readingId = uuidv4();
     const { data, error } = await supabase
       .from('readings')
       .insert([
         {
-          reading_id: uuidv4(),
+          reading_id: readingId,
           wallet_address: walletAddress,
           deck_id: deckId,
           card_id: cardId,
-          nft_id: uuidv4(), // Generate a unique NFT ID
+          nft_id: uuidv4(),
           image_url: imageUrl,
           index: index,
           created_at: new Date().toISOString(),
@@ -25,7 +29,7 @@ export async function createReading(
       ]);
 
     if (error) throw error;
-    return data;
+    return readingId;
   } catch (error) {
     console.error('Error creating reading:', error);
     throw error;

@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  output: "export",
   reactStrictMode: true,
   images: {
     unoptimized: true,
@@ -18,6 +17,14 @@ const nextConfig = {
     "**/*.tsx",
   ],
   exclude: ["node_modules"],
+  async rewrites() {
+    return [
+      {
+        source: '/card-reveal/:readingId',
+        destination: '/card-reveal/[readingId]',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

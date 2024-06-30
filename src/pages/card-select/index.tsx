@@ -123,8 +123,14 @@ export default function CardSelect() {
       if (user?.wallet?.address) {
         await createOrUpdateUser(user.wallet.address);
         
+        const card = await getCardByIndex(deckId, randomIndex);
+      
+      if (!card) {
+        throw new Error("Failed to get a card at the generated index");
+      }
+      
         // Create reading in the database
-        await createReading(
+        const readingId = await createReading(
           user.wallet.address,
           card.card_id,
           deckId,
@@ -134,9 +140,9 @@ export default function CardSelect() {
         // Navigate to the card-reveal page with card data
 
         router.push({
-          pathname: "/card-reveal",
-          query: { cardId: randomIndex.toString() }
-        });
+          pathname: "/card-reveal/[readingId]",
+          query: { readingId: readingId }
+        } as any);
       } else {
         throw new Error("Wallet address not available");
       }

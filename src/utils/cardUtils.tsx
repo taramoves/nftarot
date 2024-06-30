@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { constructFullImageUrl } from './imageUtils';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
@@ -10,9 +11,9 @@ export interface Card {
   card_read_main: string;
 }
 
-function constructFullImageUrl(partialUrl: string): string {
-  return `${SUPABASE_URL}/storage/v1/object/public/${partialUrl}`;
-}
+// function constructFullImageUrl(partialUrl: string): string {
+//   return `${SUPABASE_URL}/storage/v1/object/public/${partialUrl}`;
+// }
 
 export async function getCardByIndex(deckId: string, index: number): Promise<Card | null> {
   try {
