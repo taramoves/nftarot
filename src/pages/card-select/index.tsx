@@ -122,7 +122,16 @@ export default function CardSelect() {
 
       if (user?.wallet?.address) {
         await createOrUpdateUser(user.wallet.address);
-        await createReading(user.wallet.address, card.card_id, deckId);
+        
+        // Create reading in the database
+        await createReading(
+          user.wallet.address,
+          card.card_id,
+          deckId,
+          card.image_url,
+          randomIndex
+        );  
+        // Navigate to the card-reveal page with card data
 
         router.push({
           pathname: "/card-reveal",
