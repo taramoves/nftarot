@@ -19,13 +19,16 @@ export default function SingleCard({
   onClick,
   ...props
 }: Props) {
-  console.log("SingleCard src:", src); // Add this line
+  //change so it doesn't have hover state
+  //get image to display to the width of parent div
+
   return (
     <div style={{ zIndex: 2 }}>
       <Image
         src={src}
         alt={alt}
         className={styles.card}
+        boxSize={'auto'}
         style={{
           borderRadius: "2.2rem",
           border: "3px solid black",
