@@ -60,6 +60,7 @@ export default function CardReveal() {
           description={cardData.card_read_main}
           text={cardData.card_name}
         />
+        
       ) : (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
           No card data available. Please try again.

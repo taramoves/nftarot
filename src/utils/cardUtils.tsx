@@ -1,4 +1,5 @@
-import { supabase } from "./supabase";
+import { supabase } from './supabase';
+import { constructFullImageUrl } from './imageUtils';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
@@ -10,9 +11,9 @@ export interface Card {
   card_read_main: string;
 }
 
-export function constructFullImageUrl(partialUrl: string): string {
-  return `${SUPABASE_URL}/storage/v1/object/public/${partialUrl}`;
-}
+// function constructFullImageUrl(partialUrl: string): string {
+//   return `${SUPABASE_URL}/storage/v1/object/public/${partialUrl}`;
+// }
 
 export async function getCardByIndex(
   deckId: string,
@@ -60,7 +61,8 @@ export async function getCardByIndex(
 
 export function generateRandomIndex(): number {
   const minIndex = 0;
-  const maxIndex = 5;
+  const maxIndex = 6;
+
   return Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
 }
 
