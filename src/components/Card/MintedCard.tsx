@@ -1,11 +1,11 @@
-import { Flex, Button, IconButton } from "@chakra-ui/react";
+import { Flex, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import SingleCard from "./SingleCard";
 import TextContainer from "@/components/TextContainer";
-import { FaShare } from "react-icons/fa";
 import styles from "../../styles/CardReveal.module.css";
 import { StaticImageData } from "next/image";
-// import Date from "./Date";
+import ShareButton from "@/components/Modal/ShareButton"; // Import the new ShareButton
+import React from 'react';
 
 interface Props {
   className?: string;
@@ -26,7 +26,9 @@ export default function MintedCard({
   description,
   ...props
 }: Props) {
-  console.log('MintedCard src:', src);  // Add this line
+  const cardId = React.useId();
+  console.log('MintedCard rendering', { cardId, alt, src, text, description });
+
   const router = useRouter();
 
   return (
@@ -54,7 +56,6 @@ export default function MintedCard({
           maxWidth: "35%",
         }}
       >
-        {/* <Date/> */}
         <TextContainer variant={"card name"} size={"xl"}>
           {text}
         </TextContainer>
@@ -81,11 +82,10 @@ export default function MintedCard({
           >
             Restart
           </Button>
-          <IconButton
-            variant={"primaryButton"}
-            aria-label="share reading"
-            onClick={() => {}}
-            icon={<FaShare />}
+          <ShareButton
+            title="My NFTarot Card"
+            text={`Check out my NFTarot card: ${text}`}
+            url={window.location.href}
           />
         </Flex>
       </Flex>
