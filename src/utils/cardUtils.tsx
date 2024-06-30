@@ -11,10 +11,6 @@ export interface Card {
   card_read_main: string;
 }
 
-// function constructFullImageUrl(partialUrl: string): string {
-//   return `${SUPABASE_URL}/storage/v1/object/public/${partialUrl}`;
-// }
-
 export async function getCardByIndex(
   deckId: string,
   index: number,
@@ -100,8 +96,8 @@ export async function fetchPastReadings(walletAddress: string): Promise<Reading[
         created_at: result.created_at_times[index],
         deck_id: result.deck_ids[index],
         card_id: result.card_ids[index],
-        image_url: result.image_urls,
-        cardIndex: result.indexes,
+        image_url: result.image_urls[index],
+        cardIndex: result.indexes[index],
       }));
     }
 
