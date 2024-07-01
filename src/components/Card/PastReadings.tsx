@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchPastReadings, Reading } from "../../utils/cardUtils";
 import TextContainer from "../TextContainer";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Link } from "@chakra-ui/react";
 import SingleCard from "./SingleCard";
 
 interface ReadingListProps {
@@ -49,6 +49,7 @@ const PastReadings: React.FC<ReadingListProps> = ({ walletAddress }) => {
     >
       {walletReadings.map((reading) => (
         <Flex key={reading.id} style={{ flexDirection: "column", width: 'auto' }}>
+          <Link href={`/card-reveal/${reading.id}`}>
           <SingleCard
             src={reading.image_url}
             alt={`Card ${reading.id}`}
@@ -57,6 +58,7 @@ const PastReadings: React.FC<ReadingListProps> = ({ walletAddress }) => {
           <TextContainer style={{textAlign: 'center'}}>
             {new Date(reading.created_at).toLocaleDateString()}
           </TextContainer>
+          </Link>
         </Flex>
       ))}
     </Flex>
