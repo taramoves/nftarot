@@ -82,19 +82,13 @@ interface SupabaseReadingData {
       <Page variant={"main"}>
         <NavBar />
         {readingData && (
-          <>
             <MintedCard
+            date={new Date(readingData.created_at).toLocaleDateString()}
               src={readingData.image_url}
               alt={readingData.card_name}
               description={readingData.card_read_main}
               text={readingData.card_name}
             />
-            <div>Reading Date: {new Date(readingData.created_at).toLocaleDateString()}</div>
-            <div>Reading URL: {window.location.href}</div>
-            <button onClick={() => navigator.clipboard.writeText(window.location.href)}>
-              Copy Reading URL
-            </button>
-          </>
         )}
       </Page>
     );

@@ -1,16 +1,16 @@
-import { Flex, Button } from "@chakra-ui/react";
+import { Flex, Button, ButtonGroup } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import SingleCard from "./SingleCard";
 import TextContainer from "@/components/TextContainer";
 import styles from "../../styles/CardReveal.module.css";
-import { StaticImageData } from "next/image";
 import ShareButton from "@/components/Modal/ShareButton"; // Import the new ShareButton
-import React from 'react';
+import React from "react";
 
 interface Props {
   className?: string;
   alt: string;
-  src: string | StaticImageData;
+  src: string;
+  date: string;
   width?: number;
   height?: number;
   style?: any;
@@ -23,11 +23,18 @@ export default function MintedCard({
   src,
   style,
   text,
+  date,
   description,
-  ...props
 }: Props) {
   const cardId = React.useId();
-  console.log('MintedCard rendering', { cardId, alt, src, text, description });
+  console.log("MintedCard rendering", {
+    cardId,
+    alt,
+    src,
+    text,
+    date,
+    description,
+  });
 
   const router = useRouter();
 
@@ -43,8 +50,6 @@ export default function MintedCard({
         src={src}
         className={styles.card}
         alt={alt}
-        width={300}
-        height={500}
         style={{ position: "relative" }}
       />
       <Flex
@@ -57,21 +62,23 @@ export default function MintedCard({
         }}
       >
         <TextContainer variant={"card name"} size={"xl"}>
+          {date}
+        </TextContainer>
+        <TextContainer variant={"card name"} size={"xl"}>
           {text}
         </TextContainer>
         <TextContainer variant={"description"}>{description}</TextContainer>
-        <Flex
+        <ButtonGroup
           style={{
             display: "flex",
-            gap: "1rem",
-            marginRight: "1.5rem",
+            flexWrap: "wrap",
+            gap: ".5rem",
             justifyContent: "flex-end",
             minWidth: "100%",
           }}
         >
           <Button
             variant={"primaryButton"}
-            style={{ marginLeft: "3rem" }}
             onClick={() => router.push("/profile")}
           >
             Past Readings
@@ -83,11 +90,11 @@ export default function MintedCard({
             Restart
           </Button>
           <ShareButton
-            title="My NFTarot Card"
-            text={`Check out my NFTarot card: ${text}`}
+            title="My Reading"
+            text={`I just minted a reading on NFTarot, I pulled ${text}!`}
             url={window.location.href}
           />
-        </Flex>
+        </ButtonGroup>
       </Flex>
     </Flex>
   );

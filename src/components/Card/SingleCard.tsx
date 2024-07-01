@@ -1,12 +1,13 @@
-import styles from "../../styles/CardSelect.module.css";
-import Image, { StaticImageData } from "next/image";
+import { Image, Flex } from "@chakra-ui/react";
+import { colors } from "@/theme/foundations/colors";
 
 interface Props {
   className?: string;
   alt: string;
-  src: string | StaticImageData;
+  src: string;
   width?: number;
   height?: number;
+  pastReading?: boolean;
   style?: any;
   onClick?: () => void;
 }
@@ -16,18 +17,37 @@ export default function SingleCard({
   src,
   style,
   onClick,
+  pastReading = false,
   ...props
 }: Props) {
-  console.log('SingleCard src:', src);  // Add this line
-  return (
+  return pastReading === true ? (
+    <Flex
+      style={{
+        width: "12rem",
+        backgroundColor: colors.yellow,
+        borderRadius: "2.2rem",
+        border: "3px solid black",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        style={{
+          borderRadius: "1.2rem",
+          border: "3px solid black",
+          width: "80%",
+          margin: '1rem'
+        }}
+      />
+    </Flex>
+  ) : (
     <div style={{ zIndex: 2 }}>
       <Image
         src={src}
         alt={alt}
-        className={styles.card}
         style={{
-          width: "100%",
-          height: "auto",
           borderRadius: "2.2rem",
           border: "3px solid black",
         }}
