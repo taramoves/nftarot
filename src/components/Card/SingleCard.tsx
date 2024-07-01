@@ -1,6 +1,5 @@
-import styles from "../../styles/CardSelect.module.css";
-import { StaticImageData } from "next/image";
-import { Image } from "@chakra-ui/react";
+import { Image, Flex } from "@chakra-ui/react";
+import { colors } from "@/theme/foundations/colors";
 
 interface Props {
   className?: string;
@@ -8,6 +7,7 @@ interface Props {
   src: string;
   width?: number;
   height?: number;
+  pastReading?: boolean;
   style?: any;
   onClick?: () => void;
 }
@@ -17,18 +17,36 @@ export default function SingleCard({
   src,
   style,
   onClick,
+  pastReading = false,
   ...props
 }: Props) {
-  //change so it doesn't have hover state
-  //get image to display to the width of parent div
-
-  return (
+  return pastReading === true ? (
+    <Flex
+      style={{
+        width: "12rem",
+        backgroundColor: colors.yellow,
+        borderRadius: "2.2rem",
+        border: "3px solid black",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        style={{
+          borderRadius: "1.2rem",
+          border: "3px solid black",
+          width: "80%",
+          margin: '1rem'
+        }}
+      />
+    </Flex>
+  ) : (
     <div style={{ zIndex: 2 }}>
       <Image
         src={src}
         alt={alt}
-        className={styles.card}
-        boxSize={'auto'}
         style={{
           borderRadius: "2.2rem",
           border: "3px solid black",
