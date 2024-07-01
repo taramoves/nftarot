@@ -1,63 +1,69 @@
 import { useRouter } from "next/router";
-import styles from "../../styles/CardReveal.module.css";
-import NavBar from "@/components/NavBar";
-import { Button, IconButton } from "@chakra-ui/react";
-import Card from "@/components/Card/SingleCard";
-import { FaShare } from "react-icons/fa";
-import Page from "@/components/Page";
-import TextContainer from "@/components/TextContainer";
-import MintedCard from "@/components/Card/MintedCard";
 import { useEffect, useState } from "react";
-import { getCardByIndex, Card as CardType } from "@/utils/cardUtils";
+import { supabase } from "@/utils/supabase";
+import NavBar from "@/components/NavBar";
+import Page from "@/components/Page";
+import MintedCard from "@/components/Card/MintedCard";
+import { constructFullImageUrl } from "@/utils/imageUtils";
 
-const CardReveal = () => {
+interface ReadingData {
+  card_id: string;
+  card_name: string;
+  image_url: string;
+  card_read_main: string;
+  created_at: string;
+}
+
+export default function CardReveal() {
   const router = useRouter();
-  const { cardId } = router.query;
-  const [cardData, setCardData] = useState<CardType | null>(null);
+  const { readingId } = router.query;
+  const [readingData, setReadingData] = useState<ReadingData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   useEffect(() => {
-    const fetchCard = async () => {
-      if (typeof cardId !== 'string') {
-        console.error('cardId is not a string:', cardId);
-        setError("Invalid card ID");
+    const fetchReadingData = async () => {
+      if (typeof readingId !== "string") {
+        setError("Invalid reading ID");
         setLoading(false);
         return;
       }
-      
+
       try {
-        console.log('Fetching card with ID:', cardId);
-        // Assuming cardId is now the index
-        const index = parseInt(cardId, 10);
-        if (isNaN(index)) {
-          console.error('cardId is not a valid number:', cardId);
-          setError("Invalid card index");
-          return;
-        }
-        // You might need to adjust this if you need to specify a deck ID
-        const deckId = 'd8a4f60f-f3bf-44df-9218-7a10e4dfdf46'; // Replace with actual deck ID if needed
-        const card = await getCardByIndex(deckId, index);
-        console.log('Fetched card:', card);
-        if (card) {
-          setCardData(card);
-          console.log('Image URL:', card.image_url);
+        const { data: readingData, error: readingError } = await supabase
+          .from("readings")
+          .select("*, cards:card_id(*)")
+          .eq("reading_id", readingId)
+          .single();
+
+        if (readingError) throw readingError;
+
+        if (readingData && readingData.cards) {
+          setReadingData({
+            card_id: readingData.card_id,
+            card_name: readingData.cards.card_name,
+            image_url: constructFullImageUrl(readingData.cards.image_url),
+            card_read_main: readingData.cards.card_read_main,
+            created_at: readingData.created_at,
+          });
         } else {
-          console.error('No card found for index:', index);
-          setError("Failed to fetch card data");
+          setError("No data found for this reading");
         }
       } catch (err) {
-        console.error('Error in fetchCard:', err);
-        setError("An error occurred while fetching the card");
+        console.error("Error fetching reading data:", err);
+        setError("An error occurred while fetching the reading");
       } finally {
         setLoading(false);
       }
     };
 
-    if (cardId) {
-      fetchCard();
+    if (readingId) {
+      fetchReadingData();
     }
-  }, [cardId]);
+  }, [readingId]);
+
+  if (loading) return <div>Loading your tarot reading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <Page variant={"main"}>
@@ -75,14 +81,14 @@ const CardReveal = () => {
         >
           {error}
         </div>
-      ) : cardData ? (
+      ) : readingData ? (
         <MintedCard
-          src={cardData.image_url}
-          alt={cardData.card_name}
-          description={cardData.card_read_main}
-          text={cardData.card_name}
+          date={new Date(readingData.created_at).toLocaleDateString()}
+          src={readingData.image_url}
+          alt={readingData.card_name}
+          description={readingData.card_read_main}
+          text={readingData.card_name}
         />
-        
       ) : (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
           No card data available. Please try again.
@@ -90,6 +96,4 @@ const CardReveal = () => {
       )}
     </Page>
   );
-};
-
-export default CardReveal;
+}

@@ -4,8 +4,8 @@ import { colors } from "@/theme/foundations/colors";
 export const FullPage = defineStyleConfig({
   baseStyle: {
     display: "flex",
-    height: "100vh",
-    width: "100vw",
+    minHeight: "100vh",
+    minWidth: "100vw",
     border: "3px solid black",
   },
   variants: {
@@ -23,7 +23,7 @@ export const FullPage = defineStyleConfig({
     about: {
       backgroundColor: colors.lavender,
       flexDirection: "column",
-      height: "100%",
+      height: '100%'
     },
   },
 });
