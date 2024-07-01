@@ -84,6 +84,7 @@ interface SupabaseReadingData {
         {readingData && (
           <>
             <MintedCard
+            date={new Date(readingData.created_at).toLocaleDateString()}
               src={readingData.image_url}
               alt={readingData.card_name}
               description={readingData.card_read_main}
