@@ -25,7 +25,6 @@ export default function MintedCard({
   text,
   date,
   description,
-  ...props
 }: Props) {
   const cardId = React.useId();
   console.log("MintedCard rendering", {
