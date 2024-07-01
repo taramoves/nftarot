@@ -57,7 +57,7 @@ export async function getCardByIndex(
 
 export function generateRandomIndex(): number {
   const minIndex = 0;
-  const maxIndex = 6;
+  const maxIndex = 155;
 
   return Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
 }
