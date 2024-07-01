@@ -1,9 +1,10 @@
-import { Flex, Link as ChakraLink, Box, Button } from "@chakra-ui/react";
+import { Flex, Link as ChakraLink, Button } from "@chakra-ui/react";
 import { useMultiStyleConfig, createStylesContext } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
-import { usePrivy } from '@privy-io/react-auth';
-import { useRouter } from 'next/router';
-import NextLink from 'next/link';
+import { usePrivy } from "@privy-io/react-auth";
+import { useRouter } from "next/router";
+import NextLink from "next/link";
+import Logo from "./Logo";
 
 const [StylesProvider, useStyles] = createStylesContext("Bar");
 
@@ -12,13 +13,26 @@ function Bar(props: any) {
   const styles = useMultiStyleConfig("NavBar");
 
   return (
-    <Flex __css={styles.navbar} alignItems="center" justifyContent="space-between" {...rest}>
+    <Flex
+      __css={styles.navbar}
+      alignItems="center"
+      justifyContent="space-between"
+      {...rest}
+    >
       <StylesProvider value={styles}>{children}</StylesProvider>
     </Flex>
   );
 }
 
-function NavItem({ href, onClick, children }: { href?: string; onClick?: () => void; children: React.ReactNode }) {
+function NavItem({
+  href,
+  onClick,
+  children,
+}: {
+  href?: string;
+  onClick?: () => void;
+  children: React.ReactNode;
+}) {
   const styles = useStyles();
   const currentPath = usePathname();
   const isActive = href && currentPath === href;
@@ -45,7 +59,7 @@ function NavItem({ href, onClick, children }: { href?: string; onClick?: () => v
   }
 
   return (
-    <NextLink href={href as any || '#'} passHref legacyBehavior>
+    <NextLink href={(href as any) || "#"} passHref legacyBehavior>
       <ChakraLink as="a" sx={commonStyles}>
         {children}
       </ChakraLink>
@@ -60,7 +74,7 @@ export default function NavBar() {
   const handleExit = async () => {
     try {
       await logout();
-      router.push('/');
+      router.push("/");
     } catch (error) {
       console.error("Failed to logout:", error);
     }
@@ -68,13 +82,14 @@ export default function NavBar() {
 
   return (
     <Bar styles={{ width: "100%" }}>
-      <NavItem href="/">NFTarot</NavItem>
+        <NavItem href="/">
+          {/* <Logo /> */}
+          NFTarot
+        </NavItem>
       <Flex>
         <NavItem href="/profile">profile</NavItem>
         <NavItem href="/about">about</NavItem>
-        {authenticated && (
-          <NavItem onClick={handleExit}>exit</NavItem>
-        )}
+        {authenticated && <NavItem onClick={handleExit}>exit</NavItem>}
       </Flex>
     </Bar>
   );

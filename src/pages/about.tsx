@@ -2,6 +2,8 @@ import Navbar from "@/components/NavBar";
 import Page from "@/components/Page";
 import { Flex } from "@chakra-ui/react";
 import TextContainer from "@/components/TextContainer";
+import TeamCard from "@/components/TeamCard";
+import AboutLinks from "@/components/AboutLinks";
 
 export default function About() {
   return (
@@ -11,7 +13,7 @@ export default function About() {
         style={{
           flexDirection: "column",
           alignItems: "center",
-          width: "90%",
+          maxWidth: "50%",
           margin: "2rem auto",
         }}
       >
@@ -57,6 +59,11 @@ export default function About() {
           built for the Base Buildathon 2024 explores this exchange.
         </TextContainer>
         <TextContainer variant={"title"}>Team</TextContainer>
+        <Flex style={{marginTop: '3rem', gap: '1.5rem', marginBottom: '2rem'}}>
+          <TeamCard name={'Tara'} src={'/team/tara.jpg'} alt={'Image of Tara holding flowers.'}/>
+          <TeamCard name={'Jenna'} src={'/team/Jenna.jpg'} alt={'Image of Jenna sitting on grass.'}/>
+        </Flex>
+        {/* <AboutLinks/> */}
       </Flex>
     </Page>
   );
