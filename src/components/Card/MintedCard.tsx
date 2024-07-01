@@ -90,8 +90,8 @@ export default function MintedCard({
             Restart
           </Button>
           <ShareButton
-            title="My NFTarot Card"
-            text={`Check out my NFTarot card: ${text}`}
+            title="My Reading"
+            text={`I just minted a reading on NFTarot, I pulled ${text}!`}
             url={window.location.href}
           />
         </ButtonGroup>
