@@ -21,13 +21,14 @@ Grace Boatman
 Amina Yasmin
 
 ## About Project
-NFTarot was built as part of the Base Onchain Summer Buildathon with the intention of creating a meaningful daily experience onchain for crypto natives and an easeful onboarding experiences for the esoterically inclined. 
 
-After entering the space of NFTarot, users can make their card selection and mint it to receive their reading.
+NFTarot is a decentralized web app, designed to merge the spiritual practice of tarot into the web3 world. 
+
+## Technology Uses
+
+Typescript, NextJs, Supabase, Privy, Viem, Zora Protocol, Base Network
 
 ## Presentation Video
 
 ## 💐 Try It
-To access the NFTarot demo, we'll be launching the beta next week.
-
-## Roadmap
+To access the NFTarot demo, got [here](www.nftarot.com)
