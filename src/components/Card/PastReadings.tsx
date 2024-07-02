@@ -18,7 +18,10 @@ const PastReadings: React.FC<ReadingListProps> = ({ walletAddress }) => {
       if (walletAddress !== null)
         try {
           const fetchedReadings = await fetchPastReadings(walletAddress);
-          setWalletReadings(fetchedReadings);
+          const sortedReadings = fetchedReadings.sort((a, b) => 
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          );
+          setWalletReadings(sortedReadings);
         } catch (err) {
           setError("Failed to fetch past readings");
           console.error(err);
