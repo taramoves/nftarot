@@ -10,7 +10,7 @@ import { getCardByIndex, generateRandomIndex } from "@/utils/cardUtils";
 import { createReading, createOrUpdateUser } from "@/utils/dbUtils";
 import { usePrivy } from "@privy-io/react-auth";
 import usePrivyWalletClient from "@/hooks/usePrivyWalletClient";
-import { baseSepolia } from "viem/chains";
+import { base } from "viem/chains";
 import { zoraCreator1155ImplABI } from '@zoralabs/protocol-deployments';
 import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
@@ -30,7 +30,7 @@ export default function CardSelect() {
   const [positions, setPositions] = useState<any[]>([]);
   const [showBeginModal, setShowBeginModal] = useState(true);
   const { authenticated, login, user } = usePrivy();
-  const { walletClient } = usePrivyWalletClient(baseSepolia);
+  const { walletClient } = usePrivyWalletClient(base);
   const { connectedWallet } = useConnectedWallet();
   const { isCorrectNetwork } = useNetworkCheck(); // New hook usage
 
@@ -89,8 +89,8 @@ export default function CardSelect() {
       const randomIndex = generateRandomIndex();
       console.log("Generated random index:", randomIndex);
 
-      const minter = '0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE' as Address;
-      const tokenId = BigInt(randomIndex);
+      const minter = '0x04E2516A2c207E84a1839755675dfd8eF6302F0a' as Address; //'0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE' as Address;
+      const tokenId = BigInt(randomIndex + 1);
       const quantity = BigInt(1);
       const minterArguments = encodeAbiParameters(parseAbiParameters('address x, string y'), [
         connectedWallet as Address,
@@ -99,8 +99,9 @@ export default function CardSelect() {
       const mintReferral = '0xD246C16EC3b555234630Ab83883aAAcdfd946ceF' as Address;
       const args = [minter, tokenId, quantity, minterArguments, mintReferral];
     
+      console.log(args);
       await (walletClient as any).writeContract({
-        address: '0xfA29427dA5A14D81933B0E32BE2aD10dC679FA88',
+        address: '0x67D7e7BCc964De5BEf0951EB818E3A9A136312B5', //baseSepolia: '0x4B713bC4CEC525E59f5E6D1Cd3a372D0ee747E6d',
         abi: zoraCreator1155ImplABI,
         functionName: 'mintWithRewards',
         account: connectedWallet as Address,

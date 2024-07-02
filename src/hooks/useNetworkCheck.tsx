@@ -1,7 +1,7 @@
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useEffect, useState } from "react";
 
-const DESIRED_CHAIN_ID = 84532; // baseSepolia chain ID
+const DESIRED_CHAIN_ID = 8453; // baseSepolia chain ID
 
 const useNetworkCheck = () => {
   const { ready, authenticated } = usePrivy();
