@@ -21,7 +21,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           appearance: {
             theme: 'light',
             accentColor: '#676FFF',
-          },
+          }, 
+          externalWallets: { 
+             coinbaseWallet: { 
+            connectionOptions: 'all', 
+            } 
+          }
         }}
       >
         <ChakraProvider resetCSS theme={customTheme}>
