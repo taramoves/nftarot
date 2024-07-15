@@ -21,7 +21,6 @@ interface Props {
 export default function MintedCard({
   alt,
   src,
-  style,
   text,
   date,
   description,
