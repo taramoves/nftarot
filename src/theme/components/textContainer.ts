@@ -19,24 +19,28 @@ export const TextContainer = defineStyleConfig({
     xl: {
       fontSize: "2rem",
     },
-    xxl : {
-      fontSize: '2.5rem',
-      borderRadius: '2.5rem'
-    }
+    xxl: {
+      fontSize: "2.5rem",
+      borderRadius: "2.5rem",
+    },
   },
   variants: {
     title: {
       textTransform: "uppercase",
     },
-    'card name': {
+    "page title": {
       textTransform: "uppercase",
-      textAlign: 'center',
+      textAlign: "center",
+    },
+    "card name": {
+      textTransform: "uppercase",
+      textAlign: "center",
     },
     description: {
       lineHeight: "2rem",
       fontSize: "1.15rem",
-      padding: '2rem',
-      marginBottom: '1.2rem',
+      padding: "2rem",
+      marginBottom: "1.2rem",
       borderRadius: "1.5rem",
     },
   },

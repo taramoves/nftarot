@@ -2,7 +2,7 @@ import { Text, useStyleConfig, TextProps } from "@chakra-ui/react";
 
 interface TextContainerProps extends TextProps {
   variant?: string;
-  size?: string;
+  size?: string | Array<string>;
 }
 
 export default function TextContainer({ variant, size, ...rest }: TextContainerProps) {

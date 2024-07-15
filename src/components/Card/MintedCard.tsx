@@ -59,13 +59,25 @@ export default function MintedCard({
         maxWidth={["100%", "100%", "35%"]}
         px={[2, 3, 4]}
       >
-        <TextContainer variant={"card name"} size="xl" mb={1} fontSize={["md", "lg", "xl"]}>
+        <TextContainer
+          variant={"card name"}
+          size={["md", "lg", "xl"]}
+          mb={1}
+        >
           {date}
         </TextContainer>
-        <TextContainer variant={"card name"} size="xl" mb={2} fontSize={["md", "lg", "xl"]}>
+        <TextContainer
+          variant={"card name"}
+          size={["md", "lg", "xl"]}
+          mb={2}
+        >
           {text}
         </TextContainer>
-        <TextContainer variant={"description"} size="md" mb={4} fontSize={["xs", "sm", "md"]}>
+        <TextContainer
+          variant={"description"}
+          size={["xs", "sm", "md"]}
+          mb={4}
+        >
           {description}
         </TextContainer>
         <ButtonGroup
@@ -79,7 +91,9 @@ export default function MintedCard({
             size="md"
             mb={2}
             px={[2, 3, 4]}
-            fontSize={["xs", "sm", "md"]}
+            fontSize={"md"}
+            flexGrow={[3, 1]}
+            flex={["3 1 100%", "1 1 auto"]}
           >
             Past Readings
           </Button>
@@ -89,7 +103,9 @@ export default function MintedCard({
             size="md"
             mb={2}
             px={[2, 3, 4]}
-            fontSize={["xs", "sm", "md"]}
+            fontSize={"md"}
+            flex={["1 1 40%", "1 1 auto"]}
+            flexGrow={2}
           >
             Restart
           </Button>

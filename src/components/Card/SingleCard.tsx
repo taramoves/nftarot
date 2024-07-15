@@ -23,13 +23,13 @@ export default function SingleCard({
   return pastReading === true ? (
     <Flex
       style={{
-        width: "12rem",
         backgroundColor: colors.yellow,
         borderRadius: "2.2rem",
         border: "3px solid black",
         alignItems: "center",
         justifyContent: "center",
       }}
+      width={['8rem',"12rem"]}
     >
       <Image
         src={src}
