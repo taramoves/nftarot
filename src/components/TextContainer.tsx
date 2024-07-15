@@ -1,11 +1,11 @@
-import { Flex, Text, useStyleConfig } from "@chakra-ui/react";
+import { Text, useStyleConfig, TextProps } from "@chakra-ui/react";
 
-export default function TextContainer(props: any) {
-  const { variant, size, ...rest } = props;
+interface TextContainerProps extends TextProps {
+  variant?: string;
+  size?: string;
+}
+
+export default function TextContainer({ variant, size, ...rest }: TextContainerProps) {
   const styles = useStyleConfig("TextContainer", { variant, size });
-  return (
-    <Flex __css={styles}>
-      <Text variant={variant} size={size} {...rest} />
-    </Flex>
-  );
+  return <Text sx={styles} variant={variant} fontSize={size} lineHeight="normal" {...rest} />;
 }
