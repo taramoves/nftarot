@@ -23,13 +23,13 @@ export default function TeamCard({ name, src, alt }: TeamCardProps) {
           objectFit={"cover"}
           style={{
             height: "250px",
-            width: '100%',
+            width: "100%",
             border: "3px solid black",
             borderRadius: "2.2rem",
           }}
         />
       </Box>
-      <TextContainer textAlign="center">{name}</TextContainer>
+      <TextContainer variant="card name">{name}</TextContainer>
     </Flex>
   );
 }
