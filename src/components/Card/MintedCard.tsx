@@ -43,10 +43,10 @@ export default function MintedCard({
       align={["center", "center", "flex-start"]}
       justify="center"
       margin="auto"
-      p={[4, 6, 8]}
+      p={[2, 4, 6]}
       maxWidth="100%"
     >
-      <Box mb={[6, 6, 0]} mr={[0, 0, 8]}>
+      <Box mb={[4, 4, 0]} mr={[0, 0, 6]}>
         <SingleCard
           src={src}
           className={styles.card}
@@ -57,34 +57,39 @@ export default function MintedCard({
       <Flex
         direction="column"
         maxWidth={["100%", "100%", "35%"]}
+        px={[2, 3, 4]}
       >
-        <TextContainer variant={"card name"} size={["lg", "xl"]} mb={2}>
+        <TextContainer variant={"card name"} size="xl" mb={1} fontSize={["md", "lg", "xl"]}>
           {date}
         </TextContainer>
-        <TextContainer variant={"card name"} size={["lg", "xl"]} mb={4}>
+        <TextContainer variant={"card name"} size="xl" mb={2} fontSize={["md", "lg", "xl"]}>
           {text}
         </TextContainer>
-        <TextContainer variant={"description"} fontSize={["sm", "md"]} mb={6}>
+        <TextContainer variant={"description"} size="md" mb={4} fontSize={["xs", "sm", "md"]}>
           {description}
         </TextContainer>
         <ButtonGroup
-          spacing={2}
+          spacing={[1, 2]}
           flexWrap="wrap"
           justifyContent={["center", "flex-end"]}
         >
           <Button
             variant={"primaryButton"}
             onClick={() => router.push("/profile")}
-            size={["sm", "md"]}
+            size="md"
             mb={2}
+            px={[2, 3, 4]}
+            fontSize={["xs", "sm", "md"]}
           >
             Past Readings
           </Button>
           <Button
             variant={"primaryButton"}
             onClick={() => router.push("/card-select")}
-            size={["sm", "md"]}
+            size="md"
             mb={2}
+            px={[2, 3, 4]}
+            fontSize={["xs", "sm", "md"]}
           >
             Restart
           </Button>
