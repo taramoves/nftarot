@@ -5,5 +5,5 @@ export default function Page(props: any) {
 
   const styles = useStyleConfig("FullPage", { variant });
 
-  return <Flex __css={styles} {...rest} />;
+  return <Flex __css={styles} width = "100%" {...rest} />;
 }
