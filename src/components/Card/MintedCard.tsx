@@ -1,9 +1,9 @@
-import { Flex, Button, ButtonGroup } from "@chakra-ui/react";
+import { Flex, Button, ButtonGroup, Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import SingleCard from "./SingleCard";
 import TextContainer from "@/components/TextContainer";
 import styles from "../../styles/CardReveal.module.css";
-import ShareButton from "@/components/Modal/ShareButton"; // Import the new ShareButton
+import ShareButton from "@/components/Modal/ShareButton";
 import React from "react";
 
 interface Props {
@@ -39,52 +39,57 @@ export default function MintedCard({
 
   return (
     <Flex
-      style={{
-        justifyContent: "center",
-        alignItems: "flex-start",
-        margin: "auto",
-      }}
+      direction={["column", "column", "row"]}
+      align={["center", "center", "flex-start"]}
+      justify="center"
+      margin="auto"
+      p={[2, 4, 6]}
+      maxWidth="100%"
     >
-      <SingleCard
-        src={src}
-        className={styles.card}
-        alt={alt}
-        style={{ position: "relative" }}
-      />
+      <Box mb={[4, 4, 0]} mr={[0, 0, 6]}>
+        <SingleCard
+          src={src}
+          className={styles.card}
+          alt={alt}
+          style={{ position: "relative", maxWidth: "100%", height: "auto" }}
+        />
+      </Box>
       <Flex
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginLeft: "-1.5rem",
-          marginTop: "3rem",
-          maxWidth: "35%",
-        }}
+        direction="column"
+        maxWidth={["100%", "100%", "35%"]}
+        px={[2, 3, 4]}
       >
-        <TextContainer variant={"card name"} size={"xl"}>
+        <TextContainer variant={"card name"} size="xl" mb={1} fontSize={["md", "lg", "xl"]}>
           {date}
         </TextContainer>
-        <TextContainer variant={"card name"} size={"xl"}>
+        <TextContainer variant={"card name"} size="xl" mb={2} fontSize={["md", "lg", "xl"]}>
           {text}
         </TextContainer>
-        <TextContainer variant={"description"}>{description}</TextContainer>
+        <TextContainer variant={"description"} size="md" mb={4} fontSize={["xs", "sm", "md"]}>
+          {description}
+        </TextContainer>
         <ButtonGroup
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: ".5rem",
-            justifyContent: "flex-end",
-            minWidth: "100%",
-          }}
+          spacing={[1, 2]}
+          flexWrap="wrap"
+          justifyContent={["center", "flex-end"]}
         >
           <Button
             variant={"primaryButton"}
             onClick={() => router.push("/profile")}
+            size="md"
+            mb={2}
+            px={[2, 3, 4]}
+            fontSize={["xs", "sm", "md"]}
           >
             Past Readings
           </Button>
           <Button
             variant={"primaryButton"}
             onClick={() => router.push("/card-select")}
+            size="md"
+            mb={2}
+            px={[2, 3, 4]}
+            fontSize={["xs", "sm", "md"]}
           >
             Restart
           </Button>
