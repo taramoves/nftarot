@@ -13,14 +13,14 @@ export default function About() {
         style={{
           flexDirection: "column",
           alignItems: "center",
-          maxWidth: "50%",
-          margin: "2rem auto",
         }}
+        maxWidth={["80%", "50%"]}
+        margin={["1em auto", "2rem auto"]}
       >
-        <TextContainer variant={"title"} size={"xxl"}>
+        <TextContainer variant={"page title"} size={["2rem", "xxl"]}>
           About NFTarot
         </TextContainer>
-        <TextContainer variant={"title"}>Your Tarot Journey</TextContainer>
+        <TextContainer variant={"page title"}>Your Tarot Journey</TextContainer>
         <TextContainer variant={"description"}>
           Select the card(s) that feels right for you. Pixels are vibrant visual
           approximations of our senses so take your time.
@@ -38,7 +38,7 @@ export default function About() {
           Come back daily, weekly, or as often as you need. 
         </TextContainer>
 
-        <TextContainer variant={"title"}>Based Tarot</TextContainer>
+        <TextContainer variant={"page title"}>Based Tarot</TextContainer>
         <TextContainer variant={"description"}>
           The blockchain as a distributed network embodies a collective energy
           field that mirrors natural systems. Each transaction on Base is an
@@ -59,9 +59,25 @@ export default function About() {
           built for the Base Buildathon 2024 explores this exchange.
         </TextContainer>
         <TextContainer variant={"title"}>Team</TextContainer>
-        <Flex style={{marginTop: '3rem', gap: '1.5rem', marginBottom: '2rem'}}>
-          <TeamCard name={'Tara'} src={'/team/tara.jpg'} alt={'Image of Tara holding flowers.'}/>
-          <TeamCard name={'Jenna'} src={'/team/Jenna.jpg'} alt={'Image of Jenna sitting on grass.'}/>
+        <Flex
+          style={{
+            marginTop: "3rem",
+            gap: "1.5rem",
+            marginBottom: "2rem",
+            flexWrap: "wrap",
+            justifyContent: 'center'
+          }}
+        >
+          <TeamCard
+            name={"Tara"}
+            src={"/team/tara.jpg"}
+            alt={"Image of Tara holding flowers."}
+          />
+          <TeamCard
+            name={"Jenna"}
+            src={"/team/Jenna.jpg"}
+            alt={"Image of Jenna sitting on grass."}
+          />
         </Flex>
         {/* <AboutLinks/> */}
       </Flex>

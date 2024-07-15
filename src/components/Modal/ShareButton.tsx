@@ -57,6 +57,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ title, text, url }) => {
         aria-label="share reading"
         onClick={onOpen}
         icon={<FaShare />}
+        flex={2}
       />
       <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
         <ModalOverlay>
