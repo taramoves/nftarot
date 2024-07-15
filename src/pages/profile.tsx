@@ -41,26 +41,24 @@ export default function Profile() {
       <Navbar />
       <Flex
         style={{
-          margin: "3rem auto 0",
           fontSize: "2rem",
           alignItems: "center",
           flexDirection: "column",
           justifyContent: "flex-start",
         }}
+        margin={["1rem auto 0", "3rem auto 0"]}
       >
-        <TextContainer variant={"title"} size="xxl">
-          Profile
-        </TextContainer>
-        {walletAddress && (
-          <TextContainer variant={"description"}>
-            Wallet Address: {walletAddress}
-          </TextContainer>
-        )}
-        <TextContainer variant={"title"} size="xxl">
+        <TextContainer variant={"page title"} size={["2rem", "xxl"]}>
           Past Readings
         </TextContainer>
         {hasReadings === true ? (
-          <Flex style={{ flexDirection: "column", alignItems: "center", marginBottom: '4rem' }}>
+          <Flex
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              marginBottom: "4rem",
+            }}
+          >
             <PastReadings walletAddress={walletAddress} />
             <Button
               variant={"primaryButton"}
