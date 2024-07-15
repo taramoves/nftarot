@@ -109,7 +109,7 @@ export default function CardSelect() {
       const quantity = BigInt(1);
       const minterArguments = encodeAbiParameters(parseAbiParameters('address x, string y'), [
         connectedWallet as Address,
-        'Based in Colombia 🇨🇴',
+        'received a tarot reading onchain',
       ]);    
       const mintReferral = '0xD246C16EC3b555234630Ab83883aAAcdfd946ceF' as Address;
       const args = [minter, tokenId, quantity, minterArguments, mintReferral];
