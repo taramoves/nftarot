@@ -17,11 +17,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <PrivyProvider
         appId="clx70rx9j01ohqehtnicm2ku1"
         config={{
-          loginMethods: ['wallet', 'email'],
+          loginMethods: ['wallet'],
           appearance: {
             theme: 'light',
             accentColor: '#676FFF',
-          },
+          }, 
+          externalWallets: { 
+             coinbaseWallet: { 
+            connectionOptions: 'all', 
+            } 
+          }
         }}
       >
         <ChakraProvider resetCSS theme={customTheme}>
