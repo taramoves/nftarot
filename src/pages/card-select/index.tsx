@@ -204,6 +204,7 @@ export default function CardSelect() {
     backgroundColor: theme.colors.seagreen,
   }}
 ></div> */}
+
         <div
           className={
             selectedCard !== null || mintedCard
