@@ -40,18 +40,33 @@ export default function CardSelect() {
 
   useEffect(() => {
     const numCards = 20;
-    const radius = 300;
-    const angleStep = (2 * Math.PI) / numCards;
-    const newPositions = [];
-
-    for (let i = 0; i < numCards; i++) {
-      const angle = i * angleStep;
-      const x = radius * Math.cos(angle);
-      const y = radius * Math.sin(angle);
-      newPositions.push({ x, y, angle });
-    }
-
-    setPositions(newPositions);
+    const calculateRadius = () => {
+      const baseRadius = Math.min(window.innerWidth, window.innerHeight) * 0.35; // Reduced from 0.4 to 0.35
+      const maxRadius = 280; // Set a maximum radius (adjust as needed)
+      return Math.min(baseRadius, maxRadius);
+    };
+    let radius = calculateRadius();
+  
+    const calculatePositions = () => {
+      const angleStep = (2 * Math.PI) / numCards;
+      return Array.from({ length: numCards }, (_, i) => {
+        const angle = i * angleStep;
+        const x = radius * Math.cos(angle);
+        const y = radius * Math.sin(angle);
+        return { x, y, angle };
+      });
+    };
+  
+    setPositions(calculatePositions());
+  
+    const handleResize = () => {
+      radius = calculateRadius();
+      setPositions(calculatePositions());
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleCardClick = (cardIndex: number) => {
@@ -176,17 +191,20 @@ export default function CardSelect() {
       </Head>
       <Navbar />
       <div className={styles.main}>
-        {/* <div
-          style={{
-            position: "absolute",
-            borderRadius: "50%",
-            width: "50rem",
-            height: "50rem",
-            margin: "0px auto",
-            border: "3px solid black",
-            backgroundColor: theme.colors.seagreen,
-          }}
-        ></div> */}
+      {/* <div
+  style={{
+    position: "absolute",
+    borderRadius: "50%",
+    width: "90vw",
+    height: "90vw",
+    maxWidth: "50rem",
+    maxHeight: "50rem",
+    margin: "0px auto",
+    border: "3px solid black",
+    backgroundColor: theme.colors.seagreen,
+  }}
+></div> */}
+
         <div
           className={
             selectedCard !== null || mintedCard

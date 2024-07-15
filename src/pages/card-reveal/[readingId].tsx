@@ -7,6 +7,7 @@ import NavBar from "@/components/NavBar";
 import Page from "@/components/Page";
 import MintedCard from "@/components/Card/MintedCard";
 import { constructFullImageUrl } from '@/utils/imageUtils';
+import { Flex, Box } from "@chakra-ui/react";
 
 interface ReadingData {
   card_id: string;
@@ -81,15 +82,23 @@ interface SupabaseReadingData {
     return (
       <Page variant={"main"}>
         <NavBar />
-        {readingData && (
+        <Flex 
+          direction={["column", "row"]} 
+          align="center" 
+          justify="center" 
+          p={[4, 6, 8]} 
+          minHeight="calc(100vh - 60px)" // Adjust based on your NavBar height
+        >
+          {readingData && (
             <MintedCard
-            date={new Date(readingData.created_at).toLocaleDateString()}
+              date={new Date(readingData.created_at).toLocaleDateString()}
               src={readingData.image_url}
               alt={readingData.card_name}
               description={readingData.card_read_main}
               text={readingData.card_name}
             />
-        )}
+          )}
+        </Flex>
       </Page>
     );
   };

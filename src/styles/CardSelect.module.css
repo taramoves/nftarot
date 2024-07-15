@@ -19,8 +19,10 @@
 
 .cardDeck {
   position: relative;
-  height: 600px;
-  width: 600px;
+  height: 90vw;
+  width: 90vw;
+  max-height: 600px;
+  max-width: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,8 +30,10 @@
 
 .cardDeckDark {
   position: relative;
-  height: 600px;
-  width: 600px;
+  height: 90vw;
+  width: 90vw;
+  max-height: 600px;
+  max-width: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
