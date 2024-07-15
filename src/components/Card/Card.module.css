@@ -1,6 +1,8 @@
 .card {
-  width: 100px;
-  height: 150px;
+  width: 15vw;
+  height: 22.5vw;
+  max-width: 100px;
+  max-height: 150px;
   position: absolute;
   transition: transform 0.3s, filter 0.3s;
   cursor: pointer;
