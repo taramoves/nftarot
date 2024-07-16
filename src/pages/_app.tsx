@@ -19,6 +19,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         config={{
           loginMethods: ['wallet'],
           appearance: {
+            walletList: ['coinbase_wallet', 'metamask', 'rainbow', 'wallet_connect'],
             theme: 'light',
             accentColor: '#676FFF',
           }, 
