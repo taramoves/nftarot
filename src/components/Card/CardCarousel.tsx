@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Box, Button, Flex, useBreakpointValue, Text } from "@chakra-ui/react";
+import React, { useRef, useLayoutEffect, useMemo } from "react";
+import { Box, Button, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { colors } from "@/theme/foundations/colors";
 
@@ -9,18 +9,25 @@ interface CardButtonProps {
 
 // the goal is to extract this component later, but keeping everything in this file for the time being. OnClick this button is intended to trigger all of our minting logic
 function CardButton({ onClick, ...props }: CardButtonProps) {
+  const buttonSize = useBreakpointValue({
+    base: "7rem",
+    md: "8rem",
+    lg: "10rem",
+  });
   return (
     <Box
       as="button"
       style={{
-        width: "8rem",
-        height: "11rem",
+        width: buttonSize,
+        height: `calc(${buttonSize} * 1.375)`, // Maintains the aspect ratio
         backgroundColor: colors.red,
         border: "3px solid black",
-        borderRadius: "2em",
+        borderRadius: `calc(${buttonSize} * .15)`,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        transform: "rotate(0deg)", // Counter-rotate the content
+        transition: "transform 0.3s ease", // Smooth transition for counter-rotation
       }}
       onClick={onClick}
       {...props}
@@ -28,17 +35,15 @@ function CardButton({ onClick, ...props }: CardButtonProps) {
   );
 }
 
-//there are some weird transition-y things happening when you reach the end of the array, I haven't figured out how to give the illusion of an infinite scroll...
-
 const CardCarousel: React.FC = () => {
-  const [numItems, setNumItems] = useState(20);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const numItems =
+    useBreakpointValue({ base: 6, sm: 8, md: 10, lg: 12, xl: 16 }) || 10;
+  const currentIndexRef = useRef(0);
+  const isTransitioningRef = useRef(false);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number>();
 
-  const handleCardClick = (currentIndex: number) => {
-    console.log("button was clicked!");
+  const handleCardClick = (index: number) => {
+    console.log("button was clicked!", index);
   };
 
   const itemWidth =
@@ -46,101 +51,110 @@ const CardCarousel: React.FC = () => {
   const itemHeight =
     useBreakpointValue({ base: "80px", md: "100px", lg: "120px" }) || "100px";
 
-  const items = Array.from({ length: numItems }, (_, i) => i + 1);
-  const clonedItems = [
-    ...items.slice(-numItems),
-    ...items,
-    ...items.slice(0, numItems),
-  ];
+  const items = useMemo(
+    () => Array.from({ length: numItems }, (_, i) => i + 1),
+    [numItems]
+  );
+  const clonedItems = useMemo(
+    () => [...items.slice(-numItems), ...items, ...items.slice(0, numItems)],
+    [items, numItems]
+  );
 
-  const positionItems = useCallback(() => {
+  const positionItems = (skipTransition = false) => {
     if (!carouselRef.current) return;
 
     const carouselRect = carouselRef.current.getBoundingClientRect();
     const totalWidth = carouselRect.width;
     const itemWidthNum = parseInt(itemWidth);
-    const visibleItems = Math.floor(totalWidth / itemWidthNum) + 8; // Increased by 4
-    const arcRadius = totalWidth / 1.5; // Increased to make a wider arc
-    const arcHeight = totalWidth / 8; // Adjusted for a slightly flatter arc
+    const itemHeightNum = parseInt(itemHeight);
+    const visibleItems = Math.min(
+      numItems,
+      Math.floor(totalWidth / itemWidthNum) + 4
+    );
+    const arcRadius = totalWidth * 0.8; // Increase radius for a flatter arch
+    const centerIndex = Math.floor(visibleItems / 2);
 
     clonedItems.forEach((_, index) => {
       const item = carouselRef.current!.children[index] as HTMLElement;
       if (!item) return;
 
       const relativeIndex =
-        (index - currentIndex + clonedItems.length) % clonedItems.length;
-      const totalVisibleItems = Math.min(visibleItems, numItems); // Ensure we don't show more items than we have
-      const angle =
-        ((relativeIndex - Math.floor(totalVisibleItems / 2)) /
-          (totalVisibleItems * 1.35)) * // Reduced to 0.8 to spread items more
-        Math.PI;
+        (index - currentIndexRef.current + clonedItems.length) %
+        clonedItems.length;
+      const indexFromCenter = relativeIndex - centerIndex;
+      const angle = (indexFromCenter / visibleItems) * Math.PI * 0.5; // Reduced angle range
 
-      const x =
-        arcRadius * Math.sin(angle) + (totalWidth / 2 - itemWidthNum / 2);
-      const y = -arcHeight * (Math.cos(angle) + 0.5);
+      // Calculate position
+      const x = arcRadius * Math.sin(angle);
+      const y = arcRadius * (1 - Math.cos(angle)) - itemHeightNum / 2;
 
-      item.style.transform = `translate(${x}px, ${y}px)`;
-      item.style.opacity = Math.abs(angle) > Math.PI / 1.8 ? "0" : "1"; // Adjusted to show more items
+      // Calculate rotation angle
+      const rotationAngle = (angle * 180) / Math.PI;
+
+      // Apply transformations
+      item.style.transition = skipTransition ? "none" : "all 0.3s ease";
+      item.style.transform = `translate(${x}px, ${y}px) rotate(${rotationAngle}deg)`;
+      item.style.opacity =
+        Math.abs(indexFromCenter) > visibleItems / 2 ? "0" : "1";
+
+      if (skipTransition) {
+        item.offsetHeight; // Force reflow
+        item.style.transition = "all 0.3s ease";
+      }
     });
-  }, [currentIndex, itemWidth, numItems, clonedItems]);
+  };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     positionItems();
-  }, [positionItems]);
+    window.addEventListener("resize", positionItems);
+    return () => window.removeEventListener("resize", positionItems);
+  }, [numItems]);
 
   const rotateCarousel = (direction: number) => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
+    if (isTransitioningRef.current) return;
+    isTransitioningRef.current = true;
 
-    setCurrentIndex((prevIndex) => {
-      let newIndex = prevIndex + direction;
+    const newIndex = currentIndexRef.current + direction;
+    currentIndexRef.current = newIndex;
 
-      if (newIndex < numItems || newIndex >= numItems) {
-        setTimeout(() => {
-          setIsTransitioning(false);
-          setCurrentIndex(
-            newIndex < numItems ? newIndex + numItems : newIndex - numItems
-          );
-        }, 0);
-      } else {
-        setTimeout(() => {
-          setIsTransitioning(false);
-        }, 300);
+    positionItems();
+
+    setTimeout(() => {
+      isTransitioningRef.current = false;
+      if (newIndex <= numItems || newIndex >= numItems * 2) {
+        currentIndexRef.current =
+          newIndex <= numItems ? newIndex + numItems : newIndex - numItems;
+        positionItems(true); // Add a parameter to skip transition
       }
-      return newIndex;
-    });
+    }, 300); // Match this with your CSS transition duration
   };
 
   return (
     <Flex
       position="relative"
       width="100%"
-      height="200px"
+      height="500px"
       justifyContent="center"
       alignItems="center"
-      overflow="visible"
+      overflowX="hidden"
+      overflowY="clip"
+      paddingBottom="300px"
     >
-      <Box
-        ref={carouselRef}
-        display="flex"
-        position="relative"
-        width="100%"
-        height="100%"
-        transition="transform 0.3s ease"
-      >
+      <Box ref={carouselRef} display="flex" position="relative" width="200%">
         {clonedItems.map((item, index) => (
           <Box
             key={`${item}-${index}`}
             width={itemWidth}
             height={itemHeight}
             position="absolute"
-            transition="all 1s ease"
-            display="flex"
+            transition="all 0.3s ease"
+            display="block"
             justifyContent="center"
             alignItems="center"
-            left={0}
+            left="50%"
             top="50%"
             transform="translate(0, -50%)"
+            style={{ transformOrigin: "center bottom" }}
           >
             <CardButton onClick={() => handleCardClick(index)} />
           </Box>
