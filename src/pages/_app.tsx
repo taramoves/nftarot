@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
-import { PrivyProvider } from '@privy-io/react-auth';
+import { PrivyProvider } from "@privy-io/react-auth";
 import { customTheme } from "@/theme";
 import { fonts } from "@/lib/fonts";
 
@@ -16,18 +16,24 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       </style>
       <PrivyProvider
         appId="clx70rx9j01ohqehtnicm2ku1"
+        clientId="client-WY2n3UcPiJbQy18xpXTMQMgHmGpU4AaByapo5m2Bjo7mL"
         config={{
-          loginMethods: ['wallet'],
+          loginMethods: ["wallet"],
           appearance: {
-            walletList: ['coinbase_wallet', 'metamask', 'rainbow', 'wallet_connect'],
-            theme: 'light',
-            accentColor: '#676FFF',
-          }, 
-          externalWallets: { 
-             coinbaseWallet: { 
-            connectionOptions: 'all', 
-            } 
-          }
+            walletList: [
+              "coinbase_wallet",
+              "metamask",
+              "rainbow",
+              "wallet_connect",
+            ],
+            theme: "light",
+            accentColor: "#676FFF",
+          },
+          externalWallets: {
+            coinbaseWallet: {
+              connectionOptions: "all",
+            },
+          },
         }}
       >
         <ChakraProvider resetCSS theme={customTheme}>

@@ -202,20 +202,6 @@ export default function CardSelect() {
       </Head>
       <Navbar />
       <div className={styles.main}>
-        {/* <div
-  style={{
-    position: "absolute",
-    borderRadius: "50%",
-    width: "90vw",
-    height: "90vw",
-    maxWidth: "50rem",
-    maxHeight: "50rem",
-    margin: "0px auto",
-    border: "3px solid black",
-    backgroundColor: theme.colors.seagreen,
-  }}
-></div> */}
-
         <div
           className={
             selectedCard !== null || mintedCard
