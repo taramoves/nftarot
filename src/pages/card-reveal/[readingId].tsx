@@ -64,7 +64,9 @@ interface SupabaseReadingData {
             setError("No data found for this reading");
           }
         } catch (err) {
-          console.error('Error fetching reading data:', err);
+          if (process.env.NODE_ENV === "development") {
+            console.error("Error fetching reading data:", err);
+          }
           setError("An error occurred while fetching the reading");
         } finally {
           setLoading(false);

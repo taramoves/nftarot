@@ -36,8 +36,6 @@ export async function getCardByIndex(
     // Construct the full image URL
     data.image_url = constructFullImageUrl(data.image_url);
 
-    console.log("Fetched card:", data);
-
     if (data) {
       return {
         card_id: data.card_id,
@@ -90,7 +88,6 @@ export async function fetchPastReadings(walletAddress: string): Promise<Reading[
 
     if (data && data.length > 0) {
       const result = data[0] as DatabaseReading;
-      console.log(result);
       return result.reading_ids.map((id, index) => ({
         id,
         created_at: result.created_at_times[index],

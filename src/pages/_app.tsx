@@ -15,8 +15,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         `}
       </style>
       <PrivyProvider
-        appId="clx70rx9j01ohqehtnicm2ku1"
-        clientId="client-WY2n3UcPiJbQy18xpXTMQMgHmGpU4AaByapo5m2Bjo7mL"
+        appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID ?? ""}
+        clientId={process.env.NEXT_PUBLIC_PRIVY_CLIENT_ID ?? ""}
         config={{
           loginMethods: ["wallet"],
           appearance: {
