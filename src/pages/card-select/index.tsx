@@ -14,7 +14,10 @@ import { base } from "viem/chains";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
-import useNetworkCheck from "@/hooks/useNetworkCheck"; // New import
+import useNetworkCheck from "@/hooks/useNetworkCheck";
+import type { GetServerSideProps } from "next";
+
+export const getServerSideProps: GetServerSideProps = async () => ({ props: {} });
 
 interface CardState {
   fileName: string;

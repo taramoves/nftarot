@@ -7,6 +7,9 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useEffect, useState } from "react";
 import PastReadings from "@/components/Card/PastReadings";
 import { fetchPastReadings } from "@/utils/cardUtils";
+import type { GetServerSideProps } from "next";
+
+export const getServerSideProps: GetServerSideProps = async () => ({ props: {} });
 
 export default function Profile() {
   const router = useRouter();

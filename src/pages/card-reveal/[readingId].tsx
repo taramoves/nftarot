@@ -8,6 +8,9 @@ import Page from "@/components/Page";
 import MintedCard from "@/components/Card/MintedCard";
 import { constructFullImageUrl } from '@/utils/imageUtils';
 import { Flex, Box } from "@chakra-ui/react";
+import type { GetServerSideProps } from "next";
+
+export const getServerSideProps: GetServerSideProps = async () => ({ props: {} });
 
 interface ReadingData {
   card_id: string;

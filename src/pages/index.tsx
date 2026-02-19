@@ -6,6 +6,9 @@ import Arch from "@/components/Arch";
 import { usePrivy } from '@privy-io/react-auth';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import type { GetServerSideProps } from "next";
+
+export const getServerSideProps: GetServerSideProps = async () => ({ props: {} });
 
 export default function Home() {
   const { login, authenticated, ready } = usePrivy();

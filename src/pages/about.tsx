@@ -4,6 +4,9 @@ import { Flex } from "@chakra-ui/react";
 import TextContainer from "@/components/TextContainer";
 import TeamCard from "@/components/TeamCard";
 import AboutLinks from "@/components/AboutLinks";
+import type { GetServerSideProps } from "next";
+
+export const getServerSideProps: GetServerSideProps = async () => ({ props: {} });
 
 export default function About() {
   return (
