@@ -21,15 +21,10 @@ export default function Home() {
   }, [ready, authenticated, router]);
 
   const handleEnter = async () => {
-    if (!ready) {
-      console.log('Privy is not ready yet');
-      return;
-    }
+    if (!ready) return;
     if (!authenticated) {
       try {
-        console.log('Initiating login...');
         await login();
-        // The useEffect hook will handle redirection after successful login
       } catch (error) {
         console.error("Failed to login:", error);
       }
@@ -38,9 +33,8 @@ export default function Home() {
     }
   };
 
-  // If authenticated, don't render the homepage content
   if (authenticated) {
-    return null; // or you could return a loading indicator
+    return null;
   }
 
   return (
@@ -73,11 +67,7 @@ export default function Home() {
           }}
         >
           <Arch />
-          <Box
-            style={{
-              fontSize: "2rem",
-            }}
-          >
+          <Box style={{ fontSize: "2rem" }}>
             ENTER
           </Box>
         </Box>

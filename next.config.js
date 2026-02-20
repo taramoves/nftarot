@@ -15,6 +15,11 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      { source: '/favicon.ico', destination: '/Logo.svg', permanent: false },
+    ];
+  },
 };
 
 module.exports = nextConfig;
