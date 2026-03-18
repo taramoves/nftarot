@@ -9,7 +9,7 @@ function ArchContainer(props: any) {
   const styles = useMultiStyleConfig("Arch");
 
   return (
-    <Flex __css={styles.container} {...rest}>
+    <Flex __css={styles.container} {...rest} pointerEvents="none">
       <StylesProvider value={styles}>{children}</StylesProvider>
     </Flex>
   );

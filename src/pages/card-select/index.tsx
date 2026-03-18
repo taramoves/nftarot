@@ -14,7 +14,10 @@ import { base } from "viem/chains";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 import { Address, encodeAbiParameters, parseAbiParameters } from "viem";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
-import useNetworkCheck from "@/hooks/useNetworkCheck"; // New import
+import useNetworkCheck from "@/hooks/useNetworkCheck";
+import type { GetServerSideProps } from "next";
+
+export const getServerSideProps: GetServerSideProps = async () => ({ props: {} });
 
 interface CardState {
   fileName: string;
@@ -97,20 +100,31 @@ export default function CardSelect() {
 
     setIsMinting(true);
 
+    const contractAddress = process.env.NEXT_PUBLIC_MINT_CONTRACT_ADDRESS;
+    const minterAddress = process.env.NEXT_PUBLIC_MINTER_ADDRESS;
+    const rewards1 = process.env.NEXT_PUBLIC_REWARDS_RECIPIENT_1;
+    const rewards2 = process.env.NEXT_PUBLIC_REWARDS_RECIPIENT_2;
+    const mintValue = process.env.NEXT_PUBLIC_MINT_VALUE_WEI ?? "777000000000000";
+    const deckId = process.env.NEXT_PUBLIC_DECK_ID ?? "d8a4f60f-f3bf-44df-9218-7a10e4dfdf46";
+
+    if (!contractAddress || !minterAddress || !rewards1 || !rewards2) {
+      toast({
+        title: "Configuration Error",
+        description: "Minting is not configured. Please set contract env variables.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      setIsMinting(false);
+      return;
+    }
+
     try {
-      console.log("Starting minting process");
-      console.log("Wallet client:", walletClient);
-
       const randomIndex = generateRandomIndex();
-      console.log("Generated random index:", randomIndex);
-
-      const minter = "0x04E2516A2c207E84a1839755675dfd8eF6302F0a" as Address; //'0xd34872BE0cdb6b09d45FCa067B07f04a1A9aE1aE' as Address;
+      const minter = minterAddress as Address;
       const tokenId = BigInt(randomIndex + 1);
       const quantity = BigInt(1);
-      const rewardsRecipients = [
-        "0xD246C16EC3b555234630Ab83883aAAcdfd946ceF" as Address,
-        "0xD246C16EC3b555234630Ab83883aAAcdfd946ceF" as Address,
-      ];
+      const rewardsRecipients = [rewards1 as Address, rewards2 as Address];
       const minterArguments = encodeAbiParameters(
         parseAbiParameters("address x, string y"),
         [connectedWallet as Address, "received a tarot reading onchain"]
@@ -124,19 +138,14 @@ export default function CardSelect() {
         minterArguments,
       ];
 
-      console.log(args);
       await (walletClient as any).writeContract({
-        address: "0x67D7e7BCc964De5BEf0951EB818E3A9A136312B5", //baseSepolia: '0x4B713bC4CEC525E59f5E6D1Cd3a372D0ee747E6d',
+        address: contractAddress as Address,
         abi: zoraCreator1155ImplABI,
         functionName: "mint",
         account: connectedWallet as Address,
         args: args as any,
-        value: "777000000000000",
+        value: mintValue,
       } as any);
-
-      console.log("Minting process completed");
-
-      const deckId = "d8a4f60f-f3bf-44df-9218-7a10e4dfdf46";
 
       const card = await getCardByIndex(deckId, randomIndex);
 
@@ -144,18 +153,10 @@ export default function CardSelect() {
         throw new Error("Failed to get a card at the generated index");
       }
 
-      console.log("Fetched card:", card);
-
       if (user?.wallet?.address) {
         await createOrUpdateUser(user.wallet.address);
 
-        const card = await getCardByIndex(deckId, randomIndex);
-
-        if (!card) {
-          throw new Error("Failed to get a card at the generated index");
-        }
-
-        // Create reading in the database
+        // Create reading in the database (card already fetched above)
         const readingId = await createReading(
           user.wallet.address,
           card.card_id,
@@ -181,7 +182,9 @@ export default function CardSelect() {
         isClosable: true,
       });
     } catch (error) {
-      console.error("Error in minting process:", error);
+      if (process.env.NODE_ENV === "development") {
+        console.error("Error in minting process:", error);
+      }
       toast({
         title: "Minting Failed",
         description:
@@ -202,20 +205,6 @@ export default function CardSelect() {
       </Head>
       <Navbar />
       <div className={styles.main}>
-        {/* <div
-  style={{
-    position: "absolute",
-    borderRadius: "50%",
-    width: "90vw",
-    height: "90vw",
-    maxWidth: "50rem",
-    maxHeight: "50rem",
-    margin: "0px auto",
-    border: "3px solid black",
-    backgroundColor: theme.colors.seagreen,
-  }}
-></div> */}
-
         <div
           className={
             selectedCard !== null || mintedCard
